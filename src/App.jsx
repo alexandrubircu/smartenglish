@@ -3,14 +3,17 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import AboutPage from './pages/AboutPage/AboutPage';
 import AuthPage from './pages/AuthPage/AuthPage';
+import TeacherPage from './pages/TeacherPage/index'
 
 const App = () => {
+
   return (
     <AuthProvider>
       <Router>
         <Routes>
           <Route path="/" element={<AboutPage />} />
           <Route path="/auth" element={<AuthPage />} />
+          <Route path='/dashboard/*' element={<TeacherPage />} />
         </Routes>
       </Router>
     </AuthProvider>

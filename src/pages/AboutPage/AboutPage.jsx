@@ -1,14 +1,16 @@
 import React from "react";
 import styles from './AboutPage.module.scss';
 import { Link } from 'react-router-dom';
-
+import AuthLayout from '../../components/authLayout'
 const AboutPage = () => {
   return(
-    <div className={styles.AboutPage}>
-      <Link to="/auth">
-        <button>Login</button>
-      </Link>
-    </div>
+    <AuthLayout>
+      <div className={styles.AboutPage}>
+        <Link to="/auth">
+          <button>Login</button>
+        </Link>
+      </div>
+    </AuthLayout>
   )
 }
 

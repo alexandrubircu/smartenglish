@@ -1,7 +1,5 @@
-// src/context/AuthContext.js
-
 import React, { createContext, useState, useEffect } from 'react';
-import { auth } from '../firebase'; // Asigură-te că ai configurat firebase
+import { auth } from '../firebase';
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth';
 
 const AuthContext = createContext();
@@ -9,12 +7,12 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  // Observăm schimbările de autentificare (dacă utilizatorul se loghează sau deconectează)
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
-      setUser(user); // Setăm utilizatorul dacă este autentificat
+      setUser(user);
     });
-    return () => unsubscribe(); // Curățăm abonamentul când componenta se demontează
+    return () => unsubscribe();
   }, []);
 
   const login = async (email, password) => {

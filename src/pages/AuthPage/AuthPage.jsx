@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from './AuthPage.module.scss';
-
+import AuthLayout from '../../components/authLayout/index'
 const AuthPage = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { login, user, logout } = useAuth();
+    const { login } = useAuth();
     const [error, setError] = useState("");
 
     const handleLogin = async (e) => {
@@ -17,44 +17,28 @@ const AuthPage = () => {
         }
     };
 
-    const handleLogout = async (e) => {
-        
-        try {
-            await logout();
-        } catch (err) {
-            setError("Eroare la logare: " + err.message);
-        }
-    };
-
-    if (user) {
-        return(
-            <div>
-                Ai fost autentificat ca {user.email}
-                <button onClick={handleLogout}>Log out</button>
-            </div>
-        );
-    }
-
     return (
-        <div className={styles.Login}>
-            <h2>Quiz Panel</h2>
-            <form onSubmit={handleLogin} className={styles.inputContainer}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Log in</button>
-            </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>} 
-        </div>
+        <AuthLayout>
+            <div className={styles.Login}>
+                <h2>Quiz Panel</h2>
+                <form onSubmit={handleLogin} className={styles.inputContainer}>
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    <button type="submit">Log in</button>
+                </form>
+                {error && <p style={{ color: 'red' }}>{error}</p>} 
+            </div>
+        </AuthLayout>
     );
 };
 

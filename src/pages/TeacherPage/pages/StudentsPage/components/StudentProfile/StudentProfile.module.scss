@@ -1,0 +1,109 @@
+.profileCard {
+  width: 100%;
+  height: fit-content;
+  flex: 1;
+  background-color: #fffef5;
+  border: 1px solid #f5e6a7;
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+
+  .avatar {
+    width: 64px;
+    height: 64px;
+  }
+
+  .details {
+    flex-grow: 1;
+
+    .name {
+      font-weight: 600;
+      color: #333;
+    }
+  }
+
+  .menuBtn {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+}
+
+.actionBtnWrapper {
+  display: flex;
+  justify-content: center;
+
+  .assignBtn {
+    background-color: #f5b700;
+    color: white;
+    text-transform: none;
+
+    &:hover {
+      background-color: #e0a800;
+    }
+  }
+}
+
+.tabs {
+  margin-top: 12px;
+}
+
+.tabContent {
+  padding-top: 12px;
+
+  .email,
+  .group,
+  .tests {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 6px;
+  }
+}
+
+.testsWrapper{
+  width: 100%;
+  max-width: 300px;
+  .testSearch {
+    margin-bottom: 12px;
+  }
+  
+  .testList {
+    width: 100%;
+    max-width: 200px;
+    .testItem {
+      border: 1px solid #f5e6a7;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      padding: 8px 12px;
+      background-color: #ffffff;
+      transition: background-color 0.2s ease;
+  
+      &:hover {
+        background-color: #fff3c4;
+      }
+    }
+  }
+}
+
+.empty {
+  flex: 1;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+  color: #aaa;
+  background-color: #fffef5;
+  border: 1px dashed #f5e6a7;
+  border-radius: 12px;
+}

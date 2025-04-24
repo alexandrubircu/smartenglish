@@ -1,0 +1,62 @@
+.dashboardWrapper {
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(#fff9db 4px, transparent 0);
+  background-size: 80px 80px;
+  background-position: -9px -40px;
+  
+  .dashboard{
+    height: 100%;
+    max-height: 1500px;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    .heder {
+      width: 100%;
+      height: 50px;
+      background-color: #fff9db;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      border-bottom-left-radius: 12px;
+      .headerContent {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .title {
+        color: gray;
+        font-weight: 600;
+        font-size: 18px;
+      }
+    
+      .actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        .assignBtn {
+          color: #b38100;
+          border-color: #facc15;
+          background-color: white;
+          font-weight: 500;
+          text-transform: none;
+        
+          &:hover {
+            background-color: #fff3c4;
+            border-color: #facc15;
+          }
+        }
+        
+      }
+    }
+    .content{
+      width: 100%;
+      height: 100%;
+      max-height: 1500px;
+      padding: 30px 20px;
+    }
+  }
+}
