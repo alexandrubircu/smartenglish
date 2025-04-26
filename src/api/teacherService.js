@@ -1,55 +1,37 @@
-// src/api/teacherService.js
-import { db } from "../firebase"; // importă instanța Firestore din firebase.js
-import { collection, addDoc, getDocs, updateDoc, doc, deleteDoc, setDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { createStudent } from "../factories/userFactory";
 
-// Adaugă un test
-export const createTest = async (testData) => {
-  try {
-    const docRef = await addDoc(collection(db, "tests"), testData);
-    console.log("Test creat cu ID:", docRef.id);
-    return docRef.id;
-  } catch (error) {
-    console.error("Eroare la crearea testului:", error);
-    throw new Error("Nu s-a putut crea testul");
-  }
+// Fetch toți studenții din colecția "students"
+export const fetchAllStudents = async () => {
+  const snapshot = await getDocs(collection(db, "students"));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-// Obține toate testele pentru profesor
-export const getTests = async () => {
-  try {
-    const snapshot = await getDocs(collection(db, "tests"));
-    const tests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return tests;
-  } catch (error) {
-    console.error("Eroare la obținerea testelor:", error);
-    throw new Error("Nu s-au putut obține testele");
-  }
+// Fetch toate testele (quizzes)
+export const fetchAllQuizzes = async () => {
+  const snapshot = await getDocs(collection(db, "quizzes"));
+  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-// Șterge un test
-export const deleteTest = async (testId) => {
-  try {
-    const testRef = doc(db, "tests", testId);
-    await deleteDoc(testRef);
-    console.log("Test șters cu succes");
-  } catch (error) {
-    console.error("Eroare la ștergerea testului:", error);
-    throw new Error("Nu s-a putut șterge testul");
-  }
+// crearea studentului.
+export const createStudentInFirestore = async (professorId, name, email, quizId = null, quizName ) => {
+  const type = quizId ? "with-test" : "basic";
+  const student = createStudent(type, name, email, professorId, quizId, quizName);
+
+  const docRef = await addDoc(collection(db, "students"), student);
+  return { id: docRef.id, ...student };
 };
 
-// Adaugă scorul unui student
-export const addStudentScore = async (studentId, testId, score) => {
-  try {
-    const studentRef = doc(db, "students", studentId);
-    await setDoc(studentRef, { 
-      scores: {
-        [testId]: score,
-      },
-    }, { merge: true });
-    console.log("Scor adăugat pentru student");
-  } catch (error) {
-    console.error("Eroare la adăugarea scorului:", error);
-    throw new Error("Nu s-a putut adăuga scorul");
-  }
+// Creare test (quiz) nou
+export const createQuizInFirestore = async (professorId, quizData) => {
+  const quiz = {
+    title: quizData.quizName,
+    createdBy: professorId,
+    createdAt: new Date().toISOString(),
+    questions: quizData.questions,
+  };
+
+  const docRef = await addDoc(collection(db, "quizzes"), quiz);
+  return { id: docRef.id, ...quiz };
 };

@@ -1,29 +1,53 @@
-// src/api/studentService.js
-import { db } from "../firebase"; // importă instanța Firestore din firebase.js
-import { collection, getDocs, doc, setDoc, updateDoc } from "firebase/firestore";
+import { db } from "../firebase";
+import { doc, getDoc, updateDoc, arrayUnion, collection, addDoc } from "firebase/firestore";
 
-// Obține toate testele disponibile pentru studenți
-export const getTestsForStudent = async () => {
-  try {
-    const snapshot = await getDocs(collection(db, "tests"));
-    const tests = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return tests;
-  } catch (error) {
-    console.error("Eroare la obținerea testelor:", error);
-    throw new Error("Nu s-au putut obține testele");
+export const getStudentById = async (studentId) => {
+  const studentRef = doc(db, "students", studentId);
+  const studentSnap = await getDoc(studentRef);
+
+  if (!studentSnap.exists()) {
+    throw new Error("Studentul nu există.");
   }
+
+  return { id: studentSnap.id, ...studentSnap.data() };
 };
 
-// Salvează rezultatul unui student la un test
-export const saveStudentResult = async (studentId, testId, answers) => {
+
+export const getQuizById = async (quizId) => {
+  const quizRef = doc(db, "quizzes", quizId);
+  const quizSnap = await getDoc(quizRef);
+
+  if (!quizSnap.exists()) {
+    throw new Error("Testul nu există.");
+  }
+
+  return { id: quizSnap.id, ...quizSnap.data() };
+};
+
+export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentName) => {
   try {
     const studentRef = doc(db, "students", studentId);
+
+    // 1. Salvăm testul în completedTests array
     await updateDoc(studentRef, {
-      [`results.${testId}`]: answers,
+      completedTests: arrayUnion(finalAnswers)
     });
-    console.log("Rezultatul studentului a fost salvat");
+
+    console.log("✅ Test salvat în completedTests.");
+
+    // 2. Adăugăm notificarea într-o colecție SEPARATĂ: notifications/
+    const notificationsRef = collection(db, "notifications");
+
+    await addDoc(notificationsRef, {
+      id: crypto.randomUUID(),
+      studentId: studentId,
+      type: "testCompleted",
+      message: `"${studentName} a finisat testul ${finalAnswers.quizName}"`,
+      timestamp: new Date().toISOString()
+    });
+
+    console.log("✅ Notificare adăugată în colecția globală notifications.");
   } catch (error) {
-    console.error("Eroare la salvarea rezultatului:", error);
-    throw new Error("Nu s-a putut salva rezultatul");
+    console.error("❌ Eroare la salvarea testului sau notificării:", error);
   }
 };

@@ -2,13 +2,17 @@
   width: 100%;
   height: fit-content;
   flex: 1;
-  background-color: #fffef5;
-  border: 1px solid #f5e6a7;
-  border-radius: 12px;
-  padding: 24px;
+  
   display: flex;
   flex-direction: column;
   gap: 16px;
+
+  .cardWrapper {
+    background-color: #fffef5;
+    border: 1px solid #f5e6a7;
+    border-radius: 12px;
+    padding: 10px 24px 24px 24px;
+  }
 }
 
 .header {
@@ -52,10 +56,6 @@
       background-color: #e0a800;
     }
   }
-}
-
-.tabs {
-  margin-top: 12px;
 }
 
 .tabContent {

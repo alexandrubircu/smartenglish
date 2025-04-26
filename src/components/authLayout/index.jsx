@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 const AuthLayout = ({children}) => {
    const { user } = useAuth();
    const navigate = useNavigate();
-   console.log(user);
    useEffect(()=>{
     if (user?.uid) {
       navigate('/dashboard');

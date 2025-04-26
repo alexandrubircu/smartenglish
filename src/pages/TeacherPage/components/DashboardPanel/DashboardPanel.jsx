@@ -17,6 +17,8 @@ import styles from './DashboardPanel.module.scss';
 // pages
 import DashboardOverview from "../../pages/DashboardOverview/DashboardOverview";
 import StudentsPage from "../../pages/StudentsPage/StudentsPage";
+import CreateUserPage from "../../../CreateUserPage/CreateUserPage";
+import CreateTestPage from "../../pages/CreateTestPage/CreateTestPage";
 
 const DashboardPanel = () => {
   const { logout } = useAuth();
@@ -65,11 +67,21 @@ const DashboardPanel = () => {
             <Typography variant="h6" className={styles.title}>{currentTitle}</Typography>
 
             <Box className={styles.actions}>
+
               <Button
                 variant="outlined"
                 size="small"
                 className={styles.assignBtn}
-                onClick={() => navigate('students')}
+                onClick={() => navigate('/dashboard/createuser')}
+              >
+                Add User
+              </Button>
+
+              <Button
+                variant="outlined"
+                size="small"
+                className={styles.assignBtn}
+                onClick={() => navigate('/dashboard/students')}
               >
                 Assign Test
               </Button>
@@ -101,6 +113,8 @@ const DashboardPanel = () => {
           <Routes>
             <Route index element={<DashboardOverview />} />
             <Route path="students" element={<StudentsPage />} />
+            <Route path="createuser" element={<CreateUserPage />} />
+            <Route path="createtest" element={<CreateTestPage />} />
           </Routes>
         </div>
       </div>

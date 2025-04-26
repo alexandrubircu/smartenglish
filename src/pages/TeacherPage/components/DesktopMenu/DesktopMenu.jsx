@@ -17,7 +17,7 @@ const DesktopMenu = () => {
             <DashboardIcon className={styles.icon} />
             <span>Dashboard</span>
           </Link>
-          <Link to="/create-test" className={styles.link}>
+          <Link to="/dashboard/createtest" className={styles.link}>
             <QuizIcon className={styles.icon} />
             <span>Create Test</span>
           </Link>
