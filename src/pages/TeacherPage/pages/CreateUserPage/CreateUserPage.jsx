@@ -3,8 +3,8 @@ import {
   Box, Typography, TextField, Button, Select, MenuItem, Modal, CircularProgress
 } from "@mui/material";
 import styles from "./CreateUserPage.module.scss";
-import { useAuth } from "../../contexts/AuthContext";
-import { useTeacherData } from "../../contexts/TeacherDataContext";
+import { useAuth } from "../../../../contexts/AuthContext";
+import { useTeacherData } from "../../../../contexts/TeacherDataContext";
 
 const CreateUserPage = () => {
   const [name, setName] = useState("");
@@ -21,15 +21,17 @@ const CreateUserPage = () => {
     try {
       const selectedQuiz = quizzes.find((q) => q.id === selectedQuizId);
       const quizName = selectedQuiz?.title || "Test";
-      const student = await addStudent(user.uid, name, email, selectedQuizId, quizName);
+  
+      // 🛠️ PAS NOU: addStudent întoarce { student, assignedQuizId }
+      const { student, assignedQuizId } = await addStudent(user.uid, name, email, selectedQuizId, quizName);
   
       if (selectedQuizId) {
-       
-  
         setShowModal(true);
         setTimeout(() => {
           setShowModal(false);
-          const link = `${window.location.origin}/start-test/${student.id}/${selectedQuizId}`;
+  
+          // ⚡ folosim assignedQuizId, nu selectedQuizId
+          const link = `${window.location.origin}/start-test/${student.id}/${assignedQuizId}`;
           console.log(`Link generat: ${link}`);
         }, 1500);
       } else {

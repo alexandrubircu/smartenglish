@@ -8,16 +8,11 @@ const StudentTestPage = () => {
 
   if (loading) return <p>Se încarcă testul...</p>;
   if (error) return <p>{error}</p>;
-  if (!quizData) return <p>Testul nu a fost găsit.</p>;
+  console.log("student", student);
+  console.log("quizData", quizData);
   return (
     <div className={styles.testWrapper}>
       <QuizRunner quizData={quizData} student={student} />
-      {/* <h2>{quiz.title}</h2>
-      <p>Total întrebări: {quiz.questions.length}</p>
-
-      <hr />
-      <p><strong>Elev:</strong> {student?.name}</p>
-      <p><strong>Email:</strong> {student?.email}</p> */}
     </div>
   );
 };

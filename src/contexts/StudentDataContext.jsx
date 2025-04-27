@@ -6,7 +6,7 @@ const StudentDataContext = createContext();
 export const useStudentData = () => useContext(StudentDataContext);
 
 export const StudentDataProvider = ({ children }) => {
-  const { studentId, quizId } = useParams();
+  const { studentId, assignedQuizId } = useParams();
   const [student, setStudent] = useState(null);
   const [quizData, setQuizData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -16,20 +16,24 @@ export const StudentDataProvider = ({ children }) => {
     setLoading(true);
     try {
       const studentData = await getStudentById(studentId);
-  
-      const assignedEntry = studentData.quizzes?.find((entry) => {
-        const quizName = Object.keys(entry)[0];
-        return entry[quizName].quizId === quizId;
-      });
-  
+
+      const assignedEntry = studentData.quizzes?.[assignedQuizId];
+
       if (!assignedEntry) {
         setError('Testul nu a fost găsit pentru acest utilizator.');
         return;
       }
-  
-      const quizData = await getQuizById(quizId);
+
+      const { quizId, assignedBy, timestamp } = assignedEntry;
+
+      const fetchedQuizData = await getQuizById(quizId);
+
       setStudent(studentData);
-      setQuizData(quizData);
+      setQuizData({
+        ...fetchedQuizData,
+        assignedBy,
+        assignedTimestamp: timestamp
+      });
     } catch (e) {
       console.error(e);
       setError('Eroare la încărcarea datelor.');
@@ -37,11 +41,10 @@ export const StudentDataProvider = ({ children }) => {
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     fetchStudentAndQuiz();
-  }, [studentId, quizId]);
+  }, [studentId, assignedQuizId]);
 
   return (
     <StudentDataContext.Provider

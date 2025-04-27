@@ -88,7 +88,7 @@ const QuizRunner = (props) => {
   
     const verificationData = verifyAnswers(updatedAnswers);
   
-    const studentCurrentQuiz = student.quizzes.find(testObj => Object.keys(testObj).includes(quizData.title));
+    
   
     const uniqueId = crypto.randomUUID(); 
   
@@ -96,8 +96,8 @@ const QuizRunner = (props) => {
       id: uniqueId,
       quizName: quizData.title,
       completedAt: new Date().toISOString(),
-      assignedAt: studentCurrentQuiz ? studentCurrentQuiz[quizData.title].timestamp : null,
-      teacherId: quizData.createdBy,
+      assignedAt: quizData.assignedTimestamp,
+      assignedBy: quizData.assignedBy,
       answersQuestion: verificationData,
     };
   

@@ -1,12 +1,11 @@
-export const createStudent = (type, name, email, ownerId, quizId = null, quizName) => {
-  
+export const createStudent = (type, name, email, ownerId, quizId = null, quizName = null, assignedQuizId = null) => {
   const base = {
     name,
     email,
     ownerId,
-    quizzes: [],
-    completedTests: [],
-    createdAt: new Date()
+    quizzes: {},
+    completedTests: {},
+    createdAt: new Date().toISOString()
   };
 
   switch (type) {
@@ -16,14 +15,14 @@ export const createStudent = (type, name, email, ownerId, quizId = null, quizNam
     case "with-test":
       return {
         ...base,
-        quizzes: (quizId && quizName) ? [
-          {
-            [quizName]: {
-              quizId: quizId,
-              timestamp: new Date().toISOString()
-            }
+        quizzes: (quizId && quizName && assignedQuizId) ? {
+          [assignedQuizId]: {
+            quizId: quizId,
+            quizName: quizName,
+            assignedBy: ownerId, // aici salvăm cine a atribuit testul
+            timestamp: new Date().toISOString()
           }
-        ] : []
+        } : {}
       };
 
     default:

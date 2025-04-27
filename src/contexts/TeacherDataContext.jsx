@@ -25,22 +25,25 @@ export const TeacherDataProvider = ({ children }) => {
       setStudents(studentsData);
       setQuizzes(quizzesData);
     } catch (err) {
-      console.error('Eroare la încărcarea datelor:', err);
+      console.error('❌ Eroare la încărcarea datelor:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const addStudent = async (professorId, name, email, quizId = null, quizName) => {
-    const newStudent = await createStudentInFirestore(professorId, name, email, quizId, quizName);
-    setStudents(prev => [...prev, newStudent]);
-    return newStudent; 
+  // 🛠️ Funcție corectată: întoarce și assignedQuizId
+  const addStudent = async (professorId, name, email, quizId = null, quizName = null) => {
+    const { student, assignedQuizId } = await createStudentInFirestore(professorId, name, email, quizId, quizName);
+    
+    setStudents(prev => [...prev, student]);
+    
+    return { student, assignedQuizId }; // 🛠️ întoarcem obiectul corect
   };
 
   const addQuiz = async (professorId, quizData) => {
     const newQuiz = await createQuizInFirestore(professorId, quizData);
     setQuizzes(prev => [...prev, newQuiz]);
-    return newQuiz; // (opțional) dacă vrei și aici acces la quiz.id etc.
+    return newQuiz;
   };
 
   useEffect(() => {

@@ -17,7 +17,7 @@ import styles from './DashboardPanel.module.scss';
 // pages
 import DashboardOverview from "../../pages/DashboardOverview/DashboardOverview";
 import StudentsPage from "../../pages/StudentsPage/StudentsPage";
-import CreateUserPage from "../../../CreateUserPage/CreateUserPage";
+import CreateUserPage from "../../pages/CreateUserPage/CreateUserPage";
 import CreateTestPage from "../../pages/CreateTestPage/CreateTestPage";
 
 const DashboardPanel = () => {

@@ -28,19 +28,23 @@ export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentN
   try {
     const studentRef = doc(db, "students", studentId);
 
-    // 1. Salvăm testul în completedTests array
+    const completedTestId = crypto.randomUUID();
+
     await updateDoc(studentRef, {
-      completedTests: arrayUnion(finalAnswers)
+      [`completedTests.${completedTestId}`]: {
+        ...finalAnswers,
+        completedAt: new Date().toISOString()
+      }
     });
 
-    console.log("✅ Test salvat în completedTests.");
+    console.log(`✅ Test salvat în completedTests cu ID: ${completedTestId}`);
 
-    // 2. Adăugăm notificarea într-o colecție SEPARATĂ: notifications/
     const notificationsRef = collection(db, "notifications");
 
     await addDoc(notificationsRef, {
       id: crypto.randomUUID(),
       studentId: studentId,
+      assignedBy: finalAnswers.assignedBy,
       type: "testCompleted",
       message: `"${studentName} a finisat testul ${finalAnswers.quizName}"`,
       timestamp: new Date().toISOString()

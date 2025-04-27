@@ -25,7 +25,7 @@ const App = () => {
             }
           />
           <Route
-            path="/start-test/:studentId/:quizId"
+            path="/start-test/:studentId/:assignedQuizId"
             element={
               <StudentDataProvider>
                 <StudentTestPage />
