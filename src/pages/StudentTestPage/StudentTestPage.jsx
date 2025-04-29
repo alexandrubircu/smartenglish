@@ -4,15 +4,13 @@ import styles from './StudentTestPage.module.scss';
 import QuizRunner from './components/QuizRunner/QuizRunner'
 
 const StudentTestPage = () => {
-  const { student, quizData, loading, error } = useStudentData();
-
+  const { student, quizData, assignedQuizId, loading, error } = useStudentData();
+  console.log(assignedQuizId);
   if (loading) return <p>Se încarcă testul...</p>;
   if (error) return <p>{error}</p>;
-  console.log("student", student);
-  console.log("quizData", quizData);
   return (
     <div className={styles.testWrapper}>
-      <QuizRunner quizData={quizData} student={student} />
+      <QuizRunner quizData={quizData} student={student} assignedQuizId={assignedQuizId} />
     </div>
   );
 };

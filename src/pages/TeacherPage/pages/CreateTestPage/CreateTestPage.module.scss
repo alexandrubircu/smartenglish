@@ -20,7 +20,7 @@
   flex-direction: row;
   width: fit-content;
   height: 100%;
-  gap: var(--default-margin); 
+  gap: var(--default-margin);
 }
 
 .addQuizForm {
@@ -204,7 +204,8 @@ button {
   margin-top: var(--default-margin);
   margin-bottom: var(--default-margin);
 
-  th, td {
+  th,
+  td {
     padding: var(--default-padding);
     text-align: center;
     border-bottom: 1px solid #ddd;
@@ -233,9 +234,9 @@ button {
   padding: var(--default-padding);
   border-radius: var(--border-radius-md);
   border: 1px solid #ddd;
-  background-color: var(--primary-bg-color); 
-  color: var(--primary-text-color); 
-  font-size: var(--font-size-base); 
+  background-color: var(--primary-bg-color);
+  color: var(--primary-text-color);
+  font-size: var(--font-size-base);
   transition: border-color var(--transition-speed);
   cursor: pointer;
 

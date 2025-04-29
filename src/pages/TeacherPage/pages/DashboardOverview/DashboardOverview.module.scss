@@ -19,11 +19,11 @@
       border-left: 6px solid #f5b700;
       padding: 16px;
       border-radius: 8px;
-      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
       transition: all 0.2s ease;
 
       &:hover {
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       }
 
       h3 {
@@ -45,7 +45,7 @@
     background: #fafafa;
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
 
     .chartTitle {
       font-size: 18px;

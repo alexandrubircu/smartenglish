@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import styles from "./QuizRunner.module.scss"
-import {addFinalAnswersToStudent} from '../../../../api/studentService';
+import { addFinalAnswersToStudent } from '../../../../api/studentService';
 
 const QuizRunner = (props) => {
-  const { quizData, student } = props;
+  const { quizData, student, assignedQuizId } = props;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(parseInt(sessionStorage.getItem('currentQuestionIndex'), 10) || 0);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
   const [customAnswer, setCustomAnswer] = useState('');
@@ -11,7 +11,7 @@ const QuizRunner = (props) => {
   const [transitioning, setTransitioning] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
-  
+
   const handleAnswerSelect = (index) => {
     setSelectedAnswerIndex(index);
     setCustomAnswer('');
@@ -77,21 +77,21 @@ const QuizRunner = (props) => {
 
   const handleFinishQuiz = async () => {
     if (isButtonDisabled || (selectedAnswerIndex === null && customAnswer.trim() === '')) return;
-  
+
     const updatedAnswers = [...userAnswers];
     updatedAnswers[currentQuestionIndex] = selectedAnswerIndex !== null
       ? quizData.questions[currentQuestionIndex].answers[selectedAnswerIndex]
       : customAnswer;
-  
+
     sessionStorage.setItem('userAnswers', JSON.stringify(updatedAnswers));
     setIsButtonDisabled(true);
-  
+
     const verificationData = verifyAnswers(updatedAnswers);
-  
-    
-  
-    const uniqueId = crypto.randomUUID(); 
-  
+
+
+
+    const uniqueId = crypto.randomUUID();
+
     const finalAnswers = {
       id: uniqueId,
       quizName: quizData.title,
@@ -100,17 +100,17 @@ const QuizRunner = (props) => {
       assignedBy: quizData.assignedBy,
       answersQuestion: verificationData,
     };
-  
-    await addFinalAnswersToStudent(student.id, finalAnswers, student.name);
+
+    await addFinalAnswersToStudent(student.id, finalAnswers, student.name, assignedQuizId);
   };
-  
+
   const currentQuestion = quizData.questions[currentQuestionIndex];
 
-  return(
+  return (
     <div className={styles.QuizMani}>
       <div className={styles.quizBox}>
         <div className={styles.quizTitle}>
-          <p translate="no">{quizData.title}</p> 
+          <p translate="no">{quizData.title}</p>
         </div>
         <div className={styles.quizProgres}>
           <p>Progres:</p>

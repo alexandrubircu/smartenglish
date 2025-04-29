@@ -4,7 +4,7 @@ import DesktopMenu from './components/DesktopMenu/DesktopMenu'
 import DashboardPanel from './components/DashboardPanel/DashboardPanel'
 
 const TeacherPage = () => {
-  return(
+  return (
     <div className={styles.wrapper}>
       <DesktopMenu />
       <DashboardPanel />

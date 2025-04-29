@@ -1,5 +1,5 @@
 import { db } from "../firebase";
-import { doc, getDoc, updateDoc, arrayUnion, collection, addDoc } from "firebase/firestore";
+import { doc, getDoc, updateDoc, deleteField, collection, addDoc } from "firebase/firestore";
 
 export const getStudentById = async (studentId) => {
   const studentRef = doc(db, "students", studentId);
@@ -24,7 +24,7 @@ export const getQuizById = async (quizId) => {
   return { id: quizSnap.id, ...quizSnap.data() };
 };
 
-export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentName) => {
+export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentName, assignedQuizId) => {
   try {
     const studentRef = doc(db, "students", studentId);
 
@@ -48,6 +48,10 @@ export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentN
       type: "testCompleted",
       message: `"${studentName} a finisat testul ${finalAnswers.quizName}"`,
       timestamp: new Date().toISOString()
+    });
+
+    await updateDoc(studentRef, {
+      [`quizzes.${assignedQuizId}`]: deleteField()
     });
 
     console.log("✅ Notificare adăugată în colecția globală notifications.");

@@ -51,6 +51,7 @@ export const StudentDataProvider = ({ children }) => {
       value={{
         student,
         quizData,
+        assignedQuizId,
         loading,
         error
       }}

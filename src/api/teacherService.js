@@ -18,7 +18,7 @@ export const fetchAllQuizzes = async () => {
 
 export const createStudentInFirestore = async (professorId, name, email, quizId = null, quizName = null) => {
   const type = quizId ? "with-test" : "basic";
-  
+
   const assignedQuizId = quizId ? crypto.randomUUID() : null;
 
   const student = createStudent(type, name, email, professorId, quizId, quizName, assignedQuizId);
@@ -27,7 +27,7 @@ export const createStudentInFirestore = async (professorId, name, email, quizId 
 
   return {
     student: { id: docRef.id, ...student },
-    assignedQuizId 
+    assignedQuizId
   };
 };
 

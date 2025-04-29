@@ -23,7 +23,7 @@ export class Answer extends QuizComponent {
 
   renderPreview() {
     return `<tr><td>${this.text}</td><td>${this.isCorrect ? '✔' : ''}</td></tr>`;
-  }  
+  }
 }
 
 // Вопрос
@@ -80,7 +80,7 @@ export class Question extends QuizComponent {
         </div>
       `;
     }
-  }  
+  }
 }
 
 // Тест
@@ -108,5 +108,5 @@ export class Quiz extends QuizComponent {
         </div>
       </div>
     `;
-  }  
+  }
 }

@@ -36,7 +36,7 @@ const AuthPage = () => {
                     />
                     <button type="submit">Log in</button>
                 </form>
-                {error && <p style={{ color: 'red' }}>{error}</p>} 
+                {error && <p style={{ color: 'red' }}>{error}</p>}
             </div>
         </AuthLayout>
     );

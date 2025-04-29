@@ -15,12 +15,12 @@
     height: 50vw;
     max-height: 280px;
     width: auto;
-    transition: filter 0.5s ease, opacity 0.5s ease; 
+    transition: filter 0.5s ease, opacity 0.5s ease;
     opacity: 0;
     display: flex;
     justify-content: end;
   }
-  
+
   .quizBox {
     background-color: #333333;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -83,7 +83,7 @@
         }
       }
     }
-  
+
     .quizContetn {
       width: 100%;
       height: fit-content;
@@ -188,7 +188,7 @@
         }
       }
     }
-  
+
     .actionButton {
       display: flex;
       align-items: center;
@@ -224,19 +224,19 @@
 @media (max-width: 767px) {
   .QuizMani {
     width: 100%;
-    
+
     .logo {
       height: 40vw;
       max-height: 200px;
     }
-    
+
     .quizBox {
       padding: 15px;
-      
+
       .quizTitle p {
         font-size: 20px;
       }
-      
+
       .quizProgres p {
         font-size: 16px;
       }
@@ -249,23 +249,24 @@
           height: 10px;
         }
       }
-      
+
       .quizContetn .question {
         padding: 10px 0px 15px 0px;
       }
+
       .quizContetn .question p {
         font-size: 18px;
       }
-      
+
       .quizContetn .answers {
         padding: 0px 15px;
       }
-      
+
       .quizContetn .answers .answer p {
         font-size: 18px;
       }
-      
-      .answers .answer{
+
+      .answers .answer {
         padding: 7px 12px !important;
       }
 
@@ -273,10 +274,10 @@
         padding: 7px 12px !important;
         font-size: 16px;
       }
-      
+
       .actionButton {
-        margin-top: 15px ;
-  
+        margin-top: 15px;
+
         button {
           padding: 8px 30px;
         }
@@ -291,11 +292,11 @@
   .QuizMani {
     .quizBox {
       padding: 10px;
-      
+
       .quizTitle p {
         font-size: 18px;
       }
-      
+
       .quizProgres p {
         font-size: 14px;
       }
@@ -308,11 +309,11 @@
           height: 5px;
         }
       }
-      
+
       .quizContetn .question {
         padding: 10px 0px 10px 0px;
       }
-      
+
       .quizContetn .question p {
         font-size: 16px !important;
       }
@@ -320,11 +321,11 @@
       .quizContetn .answers {
         padding: 0px 10px;
       }
-      
+
       .quizContetn .answers .answer p {
         font-size: 16px !important;
       }
-      
+
       .customAnswer input {
         font-size: 16px !important;
       }

@@ -34,9 +34,9 @@ export const TeacherDataProvider = ({ children }) => {
   // 🛠️ Funcție corectată: întoarce și assignedQuizId
   const addStudent = async (professorId, name, email, quizId = null, quizName = null) => {
     const { student, assignedQuizId } = await createStudentInFirestore(professorId, name, email, quizId, quizName);
-    
+
     setStudents(prev => [...prev, student]);
-    
+
     return { student, assignedQuizId }; // 🛠️ întoarcem obiectul corect
   };
 

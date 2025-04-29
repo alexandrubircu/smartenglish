@@ -99,7 +99,7 @@ const StudentProfile = ({ student }) => {
           )}
         </Box>
       </Box>
-      
+
     </div>
   );
 };

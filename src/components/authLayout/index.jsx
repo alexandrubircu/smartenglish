@@ -2,15 +2,15 @@ import React, { useEffect } from "react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useNavigate } from 'react-router-dom';
 
-const AuthLayout = ({children}) => {
-   const { user } = useAuth();
-   const navigate = useNavigate();
-   useEffect(()=>{
+const AuthLayout = ({ children }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
     if (user?.uid) {
       navigate('/dashboard');
     }
-   },[user]);
-  return(
+  }, [user]);
+  return (
     <div>
       {children}
     </div>

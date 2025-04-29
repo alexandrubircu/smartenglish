@@ -17,19 +17,19 @@ const CreateUserPage = () => {
   const handleCreate = async () => {
     if (!user?.uid) return alert("Autentificare necesară.");
     if (!name || !email) return alert("Completează toate câmpurile.");
-  
+
     try {
       const selectedQuiz = quizzes.find((q) => q.id === selectedQuizId);
       const quizName = selectedQuiz?.title || "Test";
-  
+
       // 🛠️ PAS NOU: addStudent întoarce { student, assignedQuizId }
       const { student, assignedQuizId } = await addStudent(user.uid, name, email, selectedQuizId, quizName);
-  
+
       if (selectedQuizId) {
         setShowModal(true);
         setTimeout(() => {
           setShowModal(false);
-  
+
           // ⚡ folosim assignedQuizId, nu selectedQuizId
           const link = `${window.location.origin}/start-test/${student.id}/${assignedQuizId}`;
           console.log(`Link generat: ${link}`);
@@ -37,7 +37,7 @@ const CreateUserPage = () => {
       } else {
         alert("Utilizator creat fără test.");
       }
-  
+
       setName("");
       setEmail("");
       setSelectedQuizId("");
@@ -46,7 +46,7 @@ const CreateUserPage = () => {
       alert("Eroare la salvare student în baza de date.");
     }
   };
-  
+
   return (
     <div className={styles.wrapper}>
       <Typography variant="h5" className={styles.title}>Creare utilizator nou</Typography>

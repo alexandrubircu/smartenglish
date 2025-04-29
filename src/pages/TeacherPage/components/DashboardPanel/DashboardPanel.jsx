@@ -35,7 +35,7 @@ const DashboardPanel = () => {
       console.log("Eroare la logare: " + err.message);
     }
   };
-  
+
 
   const handleMenuClick = (event) => {
     setAnchorEl(event.currentTarget);

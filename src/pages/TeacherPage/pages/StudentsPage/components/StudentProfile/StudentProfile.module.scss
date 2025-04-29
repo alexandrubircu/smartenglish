@@ -2,7 +2,7 @@
   width: 100%;
   height: fit-content;
   flex: 1;
-  
+
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -70,16 +70,18 @@
   }
 }
 
-.testsWrapper{
+.testsWrapper {
   width: 100%;
   max-width: 300px;
+
   .testSearch {
     margin-bottom: 12px;
   }
-  
+
   .testList {
     width: 100%;
     max-width: 200px;
+
     .testItem {
       border: 1px solid #f5e6a7;
       border-radius: 8px;
@@ -87,7 +89,7 @@
       padding: 8px 12px;
       background-color: #ffffff;
       transition: background-color 0.2s ease;
-  
+
       &:hover {
         background-color: #fff3c4;
       }
