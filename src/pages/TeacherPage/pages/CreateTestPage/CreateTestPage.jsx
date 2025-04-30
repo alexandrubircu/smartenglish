@@ -4,6 +4,7 @@ import { Quiz, Question, Answer } from '../../../../composite/QuizComponent';
 import { useAuth } from "../../../../contexts/AuthContext";
 import { createQuizInFirestore } from '../../../../api/teacherService';
 import './QuizComponent.scss'
+import { Button } from "@mui/material";
 
 const CreateTestPage = () => {
   const { user } = useAuth();
@@ -130,7 +131,7 @@ const CreateTestPage = () => {
 
   const renderChooseQuestion = (question, index) => (
     <>
-      <div className={styles.formGroup}>
+      <div className={styles.formGroupSelsect}>
         <label>Number of answer choices:</label>
         <input
           type="number"
@@ -145,6 +146,7 @@ const CreateTestPage = () => {
           <label>Answer {answerIndex + 1}:</label>
           <input
             type="text"
+            placeholder='Answer'
             value={answer.text}
             onChange={(e) => handleAnswerChange(index, answerIndex, e.target.value)}
             required
@@ -168,14 +170,29 @@ const CreateTestPage = () => {
         <div key={answerIndex} className={styles.answerInput}>
           <input
             type="text"
+            placeholder='Correct answers'
             value={answer}
             onChange={(e) => handleCorrectTextAnswerChange(index, e.target.value, answerIndex)}
             required
           />
-          <button type="button" onClick={() => removeCorrectTextAnswer(index, answerIndex)}>Remove</button>
+          <Button
+            variant="outlined"
+            size="small"
+            className={styles.defBtn}
+            onClick={() => removeCorrectTextAnswer(index, answerIndex)}
+          >
+            Remove
+          </Button>
         </div>
       ))}
-      <button type="button" onClick={() => addCorrectTextAnswer(index)}>Add another correct answer</button>
+      <Button
+        variant="outlined"
+        size="small"
+        className={styles.defBtn}
+        onClick={() => addCorrectTextAnswer(index)}
+      >
+        Add another correct answer
+      </Button>
     </div>
   );
 
@@ -185,7 +202,7 @@ const CreateTestPage = () => {
         <div className={styles.formGroupTop}>
           <div className={styles.QuizTitle}>
             <p>Quiz Title</p>
-            <input type="text" placeholder='Name' value={quizName} onChange={handleQuizNameChange} required />
+            <input type="text" placeholder='Quiz Title' value={quizName} onChange={handleQuizNameChange} required />
           </div>
 
           <div className={styles.numberOfQuestions}>
@@ -204,10 +221,13 @@ const CreateTestPage = () => {
         <div className={styles.QuizList}>
           {questions.map((question, index) => (
             <div className={styles.questionSection} key={index}>
-              <h3>Question {index + 1}</h3>
+              <div className={styles.questionCounter}>
+                <h3>Question {index + 1}</h3>
+              </div>
               <div className={styles.formGroup}>
                 <label>Question text:</label>
                 <input
+                  placeholder='Question text'
                   type="text"
                   value={question.questionText}
                   onChange={(e) => handleQuestionTextChange(index, e.target.value)}
@@ -229,18 +249,44 @@ const CreateTestPage = () => {
             </div>
           ))}
         </div>
-        <button type="submit">Add quiz</button>
+        <div className={styles.quizListBtngroup}>
+          <Button
+            variant="outlined"
+            size="small"
+            className={styles.previewBtn}
+            type="submit"
+          >
+            Preview
+          </Button>
+        </div>
       </form>
 
-      {quizPreview && (
-        <div>
+      {quizPreview ? (
+        <div className={styles.previewWrapper}>
           <div
             className={styles.quizPreview}
             dangerouslySetInnerHTML={{ __html: quizPreview.renderPreview() }}
           />
-          <button onClick={handleConfirmQuiz}>
-            Confirm quiz
-          </button>
+          <div className={styles.confirmBtn}>
+            <Button
+              variant="outlined"
+              size="small"
+              className={styles.defBtn}
+              onClick={handleConfirmQuiz}
+            >
+              Confirm quiz
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className={styles.waitingPrevBlock}>
+          <div className={styles.emptyStateIcon} />
+          <h3 className={styles.waitingTitle}>
+            Previzualizarea testului va apărea aici
+          </h3>
+          <p className={styles.waitingDescription}>
+            Adaugă întrebări pentru a genera un preview.
+          </p>
         </div>
       )}
     </div>

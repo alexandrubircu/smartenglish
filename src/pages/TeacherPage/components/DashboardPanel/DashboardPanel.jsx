@@ -61,13 +61,21 @@ const DashboardPanel = () => {
   };
 
   const routeTitleMap = {
-    "/dashboard": "/Dashboard",
+    "/dashboard/results": "/Results",
     "/dashboard/students": "/Students",
+    "/dashboard/createuser": "/Create User",
+    "/dashboard/createtest": "/Create Test",
     "/dashboard/settings": "/Settings",
     "/dashboard/profile": "/Profile",
+    "/dashboard": "/Dashboard",
   };
 
-  const currentTitle = routeTitleMap[location.pathname] || "/Dashboard";
+  const matchedRoute = Object.keys(routeTitleMap)
+    .sort((a, b) => b.length - a.length)
+    .find((route) => location.pathname.startsWith(route));
+
+  const currentTitle = routeTitleMap[matchedRoute] || "/Dashboard";
+
 
   return (
     <div className={styles.dashboardWrapper}>

@@ -1,4 +1,3 @@
-// Базовый класс
 class QuizComponent {
   toJSON() {
     throw new Error('Method not implemented');
