@@ -47,7 +47,8 @@ export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentN
       assignedBy: finalAnswers.assignedBy,
       type: "testCompleted",
       message: `"${studentName} a finisat testul ${finalAnswers.quizName}"`,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      read: false
     });
 
     await updateDoc(studentRef, {

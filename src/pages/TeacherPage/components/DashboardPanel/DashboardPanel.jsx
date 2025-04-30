@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAuth } from "../../../../contexts/AuthContext";
+import { useTeacherData } from "../../../../contexts/TeacherDataContext";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import styles from './DashboardPanel.module.scss';
 
@@ -22,6 +23,10 @@ import CreateTestPage from "../../pages/CreateTestPage/CreateTestPage";
 
 const DashboardPanel = () => {
   const { logout } = useAuth();
+  const { notifications } = useTeacherData();
+  const [notifAnchorEl, setNotifAnchorEl] = useState(null);
+  const openNotif = Boolean(notifAnchorEl);
+
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const navigate = useNavigate();
@@ -35,6 +40,15 @@ const DashboardPanel = () => {
       console.log("Eroare la logare: " + err.message);
     }
   };
+
+  const handleNotifClick = (event) => {
+    setNotifAnchorEl(event.currentTarget);
+  };
+
+  const handleNotifClose = () => {
+    setNotifAnchorEl(null);
+  };
+
 
 
   const handleMenuClick = (event) => {
@@ -86,11 +100,29 @@ const DashboardPanel = () => {
                 Assign Test
               </Button>
 
-              <IconButton>
-                <Badge badgeContent={2} color="error">
+              <IconButton onClick={handleNotifClick}>
+                <Badge badgeContent={notifications.length} color="error">
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
+              <Menu
+                anchorEl={notifAnchorEl}
+                open={openNotif}
+                onClose={handleNotifClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+              >
+                {notifications.length === 0 ? (
+                  <MenuItem disabled>Fără notificări</MenuItem>
+                ) : (
+                  notifications.slice(0, 5).map((notif) => (
+                    <MenuItem key={notif.id} onClick={handleNotifClose}>
+                      {notif.message}
+                    </MenuItem>
+                  ))
+                )}
+              </Menu>
+
 
               <IconButton onClick={handleMenuClick}>
                 <Avatar alt="Teacher" src="/avatar.png" />

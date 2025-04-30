@@ -5,16 +5,20 @@ import {
   createStudentInFirestore,
   createQuizInFirestore
 } from '../api/teacherService';
-
+import { observeNotifications } from '../api/observeNotifications';
+import { useAuth } from './AuthContext';
 const TeacherDataContext = createContext();
 
 export const useTeacherData = () => useContext(TeacherDataContext);
 
 export const TeacherDataProvider = ({ children }) => {
+  const { user } = useAuth();
+  const professorId = user?.uid;
   const [students, setStudents] = useState([]);
   const [quizzes, setQuizzes] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [notifications, setNotifications] = useState([]);
+  
   const refresh = async () => {
     setLoading(true);
     try {
@@ -30,6 +34,13 @@ export const TeacherDataProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  useEffect(() => {
+    if (!professorId) return;
+    console.log("👤 professorId:", professorId);
+    const unsubscribe = observeNotifications(professorId, setNotifications);
+
+    return () => unsubscribe();
+  }, [professorId]);
 
   // 🛠️ Funcție corectată: întoarce și assignedQuizId
   const addStudent = async (professorId, name, email, quizId = null, quizName = null) => {
@@ -52,9 +63,18 @@ export const TeacherDataProvider = ({ children }) => {
 
   return (
     <TeacherDataContext.Provider
-      value={{ students, quizzes, loading, refresh, addStudent, addQuiz }}
+      value={{
+        students,
+        quizzes,
+        notifications,
+        loading,
+        refresh,
+        addStudent,
+        addQuiz
+      }}
     >
       {children}
     </TeacherDataContext.Provider>
+
   );
 };
