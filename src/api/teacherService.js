@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, getDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import { createStudent } from "../factories/userFactory";
 
@@ -41,4 +41,30 @@ export const createQuizInFirestore = async (professorId, quizData) => {
 
   const docRef = await addDoc(collection(db, "quizzes"), quiz);
   return { id: docRef.id, ...quiz };
+};
+
+export const fetchCompletedTestByStudent = async (studentId, completedTestId) => {
+  const studentRef = doc(db, "students", studentId);
+  const studentSnap = await getDoc(studentRef);
+
+  if (!studentSnap.exists()) {
+    throw new Error("Studentul nu există.");
+  }
+
+  const data = studentSnap.data();
+  const test = data.completedTests?.[completedTestId];
+
+  if (!test) {
+    throw new Error("Testul nu a fost găsit la acest student.");
+  }
+
+  return {
+    ...test,
+    studentName: data.name
+  };
+};
+
+export const markNotificationAsRead = async (notifId) => {
+  const notifRef = doc(db, "notifications", notifId);
+  await updateDoc(notifRef, { read: true });
 };

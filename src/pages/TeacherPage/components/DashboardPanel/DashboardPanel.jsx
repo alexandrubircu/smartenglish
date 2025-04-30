@@ -5,9 +5,10 @@ import {
   Button,
   Avatar,
   IconButton,
-  Menu,
-  MenuItem,
   Badge,
+  Popover,
+  MenuList,
+  MenuItem,
 } from "@mui/material";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useAuth } from "../../../../contexts/AuthContext";
@@ -20,17 +21,19 @@ import DashboardOverview from "../../pages/DashboardOverview/DashboardOverview";
 import StudentsPage from "../../pages/StudentsPage/StudentsPage";
 import CreateUserPage from "../../pages/CreateUserPage/CreateUserPage";
 import CreateTestPage from "../../pages/CreateTestPage/CreateTestPage";
+import ResultPage from "../../pages/ResultPage/ResultPage";
 
 const DashboardPanel = () => {
   const { logout } = useAuth();
   const { notifications } = useTeacherData();
-  const [notifAnchorEl, setNotifAnchorEl] = useState(null);
-  const openNotif = Boolean(notifAnchorEl);
-
-  const [anchorEl, setAnchorEl] = useState(null);
-  const open = Boolean(anchorEl);
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [notifAnchorEl, setNotifAnchorEl] = useState(null);
+  const [menuAnchorEl, setMenuAnchorEl] = useState(null);
+
+  const openNotif = Boolean(notifAnchorEl);
+  const openMenu = Boolean(menuAnchorEl);
 
   const handleLogout = async () => {
     try {
@@ -49,21 +52,14 @@ const DashboardPanel = () => {
     setNotifAnchorEl(null);
   };
 
-
-
   const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+    setMenuAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
   };
 
-  const handleMenuSelect = () => {
-    handleClose();
-  };
-
-  //Mapper pentru titluri
   const routeTitleMap = {
     "/dashboard": "/Dashboard",
     "/dashboard/students": "/Students",
@@ -101,52 +97,91 @@ const DashboardPanel = () => {
               </Button>
 
               <IconButton onClick={handleNotifClick}>
-                <Badge badgeContent={notifications.length} color="error">
+                <Badge
+                  badgeContent={notifications.filter(n => !n.read).length}
+                  color="error"
+                >
                   <NotificationsIcon />
                 </Badge>
               </IconButton>
-              <Menu
+
+              <Popover
                 anchorEl={notifAnchorEl}
                 open={openNotif}
                 onClose={handleNotifClose}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               >
-                {notifications.length === 0 ? (
-                  <MenuItem disabled>Fără notificări</MenuItem>
-                ) : (
-                  notifications.slice(0, 5).map((notif) => (
-                    <MenuItem key={notif.id} onClick={handleNotifClose}>
-                      {notif.message}
-                    </MenuItem>
-                  ))
-                )}
-              </Menu>
+                <MenuList>
+                  {notifications.length === 0 ? (
+                    <MenuItem disabled>Fără notificări</MenuItem>
+                  ) : (
+                    notifications.slice(0, 5).map((notif) => (
+                      <MenuItem
+                        key={notif.id}
+                        onClick={() => {
+                          handleNotifClose();
+                          if (notif.type === "testCompleted" && notif.completedTestId) {
+                            navigate(
+                              `/dashboard/results/${notif.studentId}/${notif.completedTestId}/${notif.id}`
+                            );
+                          }
+                        }}
+                      >
+                        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                          {!notif.read && (
+                            <Box
+                              sx={{
+                                width: 8,
+                                height: 8,
+                                borderRadius: "50%",
+                                backgroundColor: "red",
+                              }}
+                            />
+                          )}
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              fontWeight: notif.read ? "normal" : "bold",
+                              whiteSpace: "normal",
+                            }}
+                          >
+                            {notif.message}
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                    ))
+                  )}
+                </MenuList>
 
+              </Popover>
 
               <IconButton onClick={handleMenuClick}>
                 <Avatar alt="Teacher" src="/avatar.png" />
               </IconButton>
-
-              <Menu
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
+              <Popover
+                anchorEl={menuAnchorEl}
+                open={openMenu}
+                onClose={handleMenuClose}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               >
-                <MenuItem onClick={() => handleMenuSelect()}>Profile</MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
+                <MenuList>
+                  <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </MenuList>
+              </Popover>
             </Box>
           </Box>
         </div>
+
         <div className={styles.content}>
           <Routes>
             <Route index element={<DashboardOverview />} />
             <Route path="students" element={<StudentsPage />} />
             <Route path="createuser" element={<CreateUserPage />} />
             <Route path="createtest" element={<CreateTestPage />} />
+            <Route path="results/:studentId/:completedTestId/:notifId" element={<ResultPage />} />
           </Routes>
         </div>
       </div>

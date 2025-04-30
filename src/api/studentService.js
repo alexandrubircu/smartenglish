@@ -37,14 +37,12 @@ export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentN
       }
     });
 
-    console.log(`✅ Test salvat în completedTests cu ID: ${completedTestId}`);
-
     const notificationsRef = collection(db, "notifications");
 
     await addDoc(notificationsRef, {
-      id: crypto.randomUUID(),
       studentId: studentId,
       assignedBy: finalAnswers.assignedBy,
+      completedTestId: completedTestId,
       type: "testCompleted",
       message: `"${studentName} a finisat testul ${finalAnswers.quizName}"`,
       timestamp: new Date().toISOString(),

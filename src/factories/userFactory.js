@@ -19,7 +19,7 @@ export const createStudent = (type, name, email, ownerId, quizId = null, quizNam
           [assignedQuizId]: {
             quizId: quizId,
             quizName: quizName,
-            assignedBy: ownerId, // aici salvăm cine a atribuit testul
+            assignedBy: ownerId,
             timestamp: new Date().toISOString()
           }
         } : {}

@@ -25,7 +25,7 @@ const DesktopMenu = () => {
             <GroupIcon className={styles.icon} />
             <span>Students</span>
           </Link>
-          <Link to="/results" className={styles.link}>
+          <Link to="/dashboard/results" className={styles.link}>
             <BarChartIcon className={styles.icon} />
             <span>Results</span>
           </Link>
