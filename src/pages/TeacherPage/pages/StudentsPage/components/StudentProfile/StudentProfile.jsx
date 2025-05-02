@@ -1,105 +1,260 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
-  Box, Typography, Avatar, Button, IconButton, Menu, MenuItem, Tabs, Tab, TextField, List, ListItem, ListItemAvatar, ListItemText
+  Box,
+  Typography,
+  Button,
+  TextField,
+  Avatar,
+  IconButton,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import styles from "./StudentProfile.module.scss";
 
-const StudentProfile = ({ student }) => {
+import { deleteStudentById, deleteCompletedTest, deleteActiveTest, assignQuizToStudent } from "../../../../../../api/teacherService";
+
+const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
   const [anchorEl, setAnchorEl] = useState(null);
-  const [tab, setTab] = useState(0);
-  const [search, setSearch] = useState("");
   const open = Boolean(anchorEl);
+  const [activeTab, setActiveTab] = useState("completed");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleMenuClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const completedTests = useMemo(() => {
+    if (!student?.completedTests) return [];
+
+    return Object.entries(student.completedTests).map(([testId, test]) => ({
+      id: testId,
+      quizId: test.id,
+      title: test.quizName,
+      assignedAt: new Date(test.assignedAt).toLocaleString(),
+      completedAt: new Date(test.completedAt).toLocaleString(),
+    }));
+  }, [student]);
+
+  const activeTests = useMemo(() => {
+    if (!student?.quizzes) return [];
+
+    return Object.entries(student.quizzes).map(([assignedQuizId, quiz]) => ({
+      id: assignedQuizId,
+      quizId: quiz.quizId,
+      title: quiz.quizName,
+      assignedAt: new Date(quiz.timestamp).toLocaleString(),
+    }));
+  }, [student]);
+
+  const filteredTests = useMemo(() => {
+    if (!quizzes) return [];
+    return quizzes.filter((test) =>
+      test.title.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, quizzes]);
+
+  const numberOfCompletedTests = completedTests.length;
+  const numberOfAssignTests = activeTests.length;
+
+  const handleMenuClick = (e) => setAnchorEl(e.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+
+  const handleDeleteStudent = async () => {
+    try {
+      await deleteStudentById(student.id);
+      handleClose();
+      if (onDeleteStudent) onDeleteStudent(student.id);
+    } catch (error) {
+      console.error("Eroare la ștergerea studentului:", error);
+    }
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleAssign = async (test) => {
+    try {
+      const assignment = {
+        quizId: test.id,
+        quizName: test.title,
+        assignedBy: professorId
+      };
 
-  const handleTabChange = (event, newValue) => {
-    setTab(newValue);
+      await assignQuizToStudent(student.id, assignment);
+      alert("✅ Test assigned cu succes!");
+    } catch (err) {
+      console.error("❌ Eroare la asignare test:", err);
+      alert("❌ A apărut o eroare la asignare.");
+    }
   };
-
-  const filteredTests = student?.tests?.filter(test =>
-    test.toLowerCase().includes(search.toLowerCase())
-  ) || [];
 
   if (!student) return <div className={styles.empty}>Selectează un student</div>;
+
+  const renderTestCard = (test, showCompleted = false) => (
+    <div key={test.id} className={styles.testCard}>
+      <div className={styles.testDates}>
+        <div className={styles.testCardTitle}>{test.title}</div>
+        <p>Assigned: {test.assignedAt}</p>
+        {showCompleted && <p>Completed: {test.completedAt}</p>}
+      </div>
+      <div className={styles.testCardActions}>
+        <IconButton
+          onClick={async () => {
+            if (showCompleted) {
+              await deleteCompletedTest(student.id, test.id);
+            } else {
+              await deleteActiveTest(student.id, test.id);
+            }
+          }}
+          className={styles.deleteBtn}
+          size="small"
+          aria-label="delete"
+        >
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+        {!showCompleted && (
+          <IconButton
+            onClick={() => {
+              const link = `${window.location.origin}/start-test/${student.id}/${test.id}`;
+              navigator.clipboard.writeText(link);
+            }}
+            className={styles.copyBtn}
+            size="small"
+            aria-label="copy-link"
+          >
+            <ContentCopyIcon fontSize="small" />
+          </IconButton>
+        )}
+      </div>
+    </div>
+  );
 
   return (
     <div className={styles.profileCard}>
       <Box className={styles.cardWrapper}>
-        <Box className={styles.header}>
-          <Avatar src="/avatar.png" className={styles.avatar} />
-          <Box className={styles.details}>
-            <Typography variant="h6" className={styles.name}>{student.name}</Typography>
-          </Box>
-          <IconButton onClick={handleMenuClick} className={styles.menuBtn}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-            transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-          >
-            <MenuItem onClick={handleClose}>Șterge utilizator</MenuItem>
-          </Menu>
+        <Avatar alt={student.name} src="/avatar.png" className={styles.avatar} />
+        <Box className={styles.details}>
+          <Typography variant="h6" className={styles.name}>
+            {student.name || "Unknown name"}
+          </Typography>
+          <Typography className={styles.email}>
+            Email: {student.email || "unknown"}
+          </Typography>
         </Box>
-
-        <Box className={styles.actionBtnWrapper}>
-          <Button variant="contained" color="primary" className={styles.assignBtn}>
-            Asignează test
-          </Button>
-        </Box>
+        <IconButton onClick={handleMenuClick} className={styles.menuBtn}>
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <MenuItem onClick={handleDeleteStudent}>Delete student</MenuItem>
+        </Menu>
       </Box>
-      <Box className={styles.cardWrapper}>
-        <Tabs value={tab} onChange={handleTabChange} className={styles.tabs}>
-          <Tab label="Informații" />
-          <Tab label="Teste" />
-        </Tabs>
 
-        <Box className={styles.tabContent}>
-          {tab === 0 && (
-            <Box>
-              <Typography className={styles.email}>{student.email}</Typography>
-              <Typography className={styles.group}>Grupă: {student.group || "Neatribuit"}</Typography>
-              <Typography className={styles.tests}>Teste efectuate: {student.tests.length}</Typography>
-            </Box>
-          )}
-          {tab === 1 && (
-            <Box className={styles.testsWrapper}>
+      <div className={styles.studentFunctionalityWrapper}>
+        <Box className={styles.tabs}>
+          {["completed", "active", "assign"].map((tab) => (
+            <button
+              key={tab}
+              className={activeTab === tab ? styles.activeTab : ""}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab === "completed"
+                ? `Completed Tests: ${numberOfCompletedTests}`
+                : tab === "active"
+                  ? `Active Tests: ${numberOfAssignTests}`
+                  : "Assign Test"}
+            </button>
+          ))}
+        </Box>
+
+        {activeTab === "completed" && (
+          <div className={styles.completedTestWrapper}>
+            <div className={styles.tabTitile}>
+              <p>Completed Tests</p>
+            </div>
+            <div className={styles.complitedContent}>
+              {completedTests.length === 0 ? (
+                <p className={styles.emptyText}>No completed tests.</p>
+              ) : (
+                <div className={styles.testGrid}>
+                  {completedTests.map((test) => renderTestCard(test, true))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "active" && (
+          <div className={styles.activeTestWrapper}>
+            <div className={styles.tabTitile}>
+              <p>Active Tests</p>
+            </div>
+            <div className={styles.activeContent}>
+              {activeTests.length === 0 ? (
+                <p className={styles.emptyText}>No active tests.</p>
+              ) : (
+                <div className={styles.testGrid}>
+                  {activeTests.map((test) => renderTestCard(test))}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "assign" && (
+          <div className={styles.asignTestWrapper}>
+            <div className={styles.tabTitile}>
+              <p>Assign Test</p>
+            </div>
+            <div className={styles.assignSearch}>
               <TextField
-                label="Caută test"
-                variant="outlined"
+                label="Search test by title..."
                 size="small"
                 fullWidth
-                className={styles.testSearch}
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className={styles.searchInput}
+                sx={{
+                  "& label": { color: "#ffcc80" },
+                  "& label.Mui-focused": { color: "#fb8c00" },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderRadius: "12px",
+                      borderColor: "#ffcc80",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "#ffa726",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "#fb8c00",
+                    },
+                  },
+                }}
               />
+            </div>
+            <div className={styles.testList}>
               {filteredTests.length === 0 ? (
-                <Typography><em>Fără teste găsite</em></Typography>
+                <p className={styles.emptyText}>No tests found.</p>
               ) : (
-                <List className={styles.testList}>
-                  {filteredTests.map((test, i) => (
-                    <ListItem key={i} className={styles.testItem}>
-                      <ListItemText
-                        primary={test}
-                      />
-                    </ListItem>
-                  ))}
-                </List>
+                filteredTests.map((test) => (
+                  <div key={test.id} className={styles.testItem}>
+                    <span className={styles.testTitle}>{test.title}</span>
+                    <Button
+                      variant="outlined"
+                      size="small"
+                      className={styles.assignBtn}
+                      onClick={() => handleAssign(test)}
+                    >
+                      Assign Test
+                    </Button>
+                  </div>
+                ))
               )}
-            </Box>
-          )}
-        </Box>
-      </Box>
-
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

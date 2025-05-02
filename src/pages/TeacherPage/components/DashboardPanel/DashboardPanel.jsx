@@ -16,7 +16,6 @@ import { useTeacherData } from "../../../../contexts/TeacherDataContext";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import styles from './DashboardPanel.module.scss';
 
-// pages
 import DashboardOverview from "../../pages/DashboardOverview/DashboardOverview";
 import StudentsPage from "../../pages/StudentsPage/StudentsPage";
 import CreateUserPage from "../../pages/CreateUserPage/CreateUserPage";

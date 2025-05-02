@@ -2,8 +2,8 @@
   width: 300px;
   display: flex;
   flex-direction: column;
-  background-color: #fffef5;
-  border: 1px solid #f5e6a7;
+  background-color: #fff9db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
   padding: 10px 12px;
 
@@ -16,6 +16,7 @@
   .search {
     margin-bottom: 14px;
     background-color: white;
+    border-radius: 12px;
   }
 
   .filter {
@@ -49,17 +50,17 @@
     .listItem {
       background-color: white;
       border-radius: 12px;
-      border: 1px solid #f5e6a7;
+      border: 1px solid #ffcc80;
       transition: background-color 0.2s ease;
 
       cursor: pointer;
 
       &:hover {
-        background-color: #fff3c4;
+        border: 1px solid orange;
       }
 
       &.selected {
-        background-color: #fff3c4;
+        border: 2px solid orange;
       }
     }
 

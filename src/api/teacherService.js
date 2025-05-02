@@ -1,20 +1,17 @@
-import { addDoc, collection, getDocs, getDoc, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, getDocs, getDoc, doc, updateDoc, deleteDoc, deleteField } from "firebase/firestore";
 import { db } from "../firebase";
 import { createStudent } from "../factories/userFactory";
-
-
+import { v4 as uuidv4 } from "uuid";
 
 export const fetchAllStudents = async () => {
   const snapshot = await getDocs(collection(db, "students"));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
-
 export const fetchAllQuizzes = async () => {
   const snapshot = await getDocs(collection(db, "quizzes"));
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
-
 
 export const createStudentInFirestore = async (professorId, name, email, quizId = null, quizName = null) => {
   const type = quizId ? "with-test" : "basic";
@@ -29,6 +26,21 @@ export const createStudentInFirestore = async (professorId, name, email, quizId 
     student: { id: docRef.id, ...student },
     assignedQuizId
   };
+};
+
+export const assignQuizToStudent = async (studentId, assignment) => {
+  const assignedQuizId = uuidv4();
+
+  const studentRef = doc(db, "students", studentId);
+
+  await updateDoc(studentRef, {
+    [`quizzes.${assignedQuizId}`]: {
+      ...assignment,
+      timestamp: new Date().toISOString()
+    }
+  });
+
+  return assignedQuizId;
 };
 
 export const createQuizInFirestore = async (professorId, quizData) => {
@@ -67,4 +79,24 @@ export const fetchCompletedTestByStudent = async (studentId, completedTestId) =>
 export const markNotificationAsRead = async (notifId) => {
   const notifRef = doc(db, "notifications", notifId);
   await updateDoc(notifRef, { read: true });
+};
+
+export const deleteStudentById = async (studentId) => {
+  const studentRef = doc(db, "students", studentId);
+  await deleteDoc(studentRef);
+};
+
+export const deleteCompletedTest = async (studentId, testId) => {
+  const studentRef = doc(db, "students", studentId);
+
+  await updateDoc(studentRef, {
+    [`completedTests.${testId}`]: deleteField()
+  });
+};
+
+export const deleteActiveTest = async (studentId, quizAssignId) => {
+  const studentRef = doc(db, "students", studentId);
+  await updateDoc(studentRef, {
+    [`quizzes.${quizAssignId}`]: deleteField()
+  });
 };

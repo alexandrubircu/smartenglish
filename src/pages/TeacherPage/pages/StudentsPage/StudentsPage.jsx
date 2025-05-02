@@ -1,34 +1,48 @@
-// StudentsPage.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import styles from "./StudentsPage.module.scss";
 import StudentsSidebar from "./components/StudentsSidebar/StudentsSidebar";
 import StudentProfile from "./components/StudentProfile/StudentProfile";
-
-const studentsData = [
-  { id: 1, name: "Ion Popescu", email: "ion@email.com", group: "A1", tests: ["Test vocabular", "Test gramatică"] },
-  { id: 2, name: "Ana Georgescu", email: "ana@email.com", group: "B1", tests: ["Test ascultare"] },
-  { id: 3, name: "Vasile Roman", email: "vasile@email.com", group: "", tests: [] },
-];
+import { useTeacherData } from "../../../../contexts/TeacherDataContext";
 
 const StudentsPage = () => {
-  const [selectedId, setSelectedId] = useState(studentsData[0].id);
-  const [selectedTest, setSelectedTest] = useState(null);
+  const { students = [], quizzes, loading, refresh, professorId } = useTeacherData();
+  const [selectedId, setSelectedId] = useState(null);
 
-  const selected = studentsData.find((s) => s.id === selectedId);
+  useEffect(() => {
+    if (students.length > 0 && !selectedId) {
+      setSelectedId(students[0].id);
+    }
+  }, [students, selectedId]);
+
+  const selected = useMemo(() => {
+    return students.find((s) => s.id === selectedId) || null;
+  }, [students, selectedId]);
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className={styles.wrapper}>
       <StudentsSidebar
-        students={studentsData}
+        students={students}
         selectedId={selectedId}
         onSelectStudent={setSelectedId}
       />
-      <StudentProfile
-        student={selected}
-        selectedTest={selectedTest}
-        onSelectTest={setSelectedTest}
-        onClearTest={() => setSelectedTest(null)}
-      />
+      {selected && (
+        <StudentProfile
+          professorId={professorId}
+          student={selected}
+          quizzes={quizzes}
+          onDeleteStudent={async (deletedId) => {
+            await refresh();
+            const remaining = students.filter((s) => s.id !== deletedId);
+            if (remaining.length > 0) {
+              setSelectedId(remaining[0].id);
+            } else {
+              setSelectedId(null);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
