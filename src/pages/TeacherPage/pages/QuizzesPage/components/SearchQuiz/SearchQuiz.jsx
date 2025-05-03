@@ -51,15 +51,21 @@ const SearchQuiz = ({ quizzes, setSelectedId }) => {
       />
 
       <List className={styles.list}>
-        {filteredQuizzes.map((quiz) => (
-          <ListItem
-            key={quiz.id}
-            className={styles.listItem}
-            onClick={() => setSelectedId(quiz.id)}
-          >
-            <ListItemText primary={quiz.title} />
-          </ListItem>
-        ))}
+        {!filteredQuizzes || filteredQuizzes.length === 0 ? (
+          <div className={styles.loadingWrapper}>
+            <div className={styles.spinner}></div>
+          </div>
+        ) : (
+          filteredQuizzes.map((quiz) => (
+            <ListItem
+              key={quiz.id}
+              className={styles.listItem}
+              onClick={() => setSelectedId(quiz.id)}
+            >
+              <ListItemText primary={quiz.title} />
+            </ListItem>
+          ))
+        )}
       </List>
     </div>
   );

@@ -8,19 +8,15 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { deleteQuizById } from '../../../../../../api/teacherService';
 
-const PreviewQuiz = ({ quiz }) => {
+const PreviewQuiz = ({ quiz, refresh, setSelectedId }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleMenuClick = (e) => setAnchorEl(e.currentTarget);
   const handleClose = () => setAnchorEl(null);
   if (!quiz) {
     return (
-      <div className={styles.waitingPrevBlock}>
-        <div className={styles.emptyStateIcon} />
-        <h3 className={styles.waitingTitle}>Select a quiz to preview</h3>
-        <p className={styles.waitingDescription}>
-          Choose a quiz from the list to see its content.
-        </p>
+      <div className={styles.loadingWrapper}>
+        <div className={styles.spinner}></div>
       </div>
     );
   }
@@ -32,6 +28,8 @@ const PreviewQuiz = ({ quiz }) => {
 
     try {
       await deleteQuizById(quiz.id);
+      refresh();
+      setSelectedId(null);
     } catch (error) {
       console.error("Failed to delete quiz:", error);
     }

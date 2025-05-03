@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import styles from './CreateTestPage.module.scss';
-import { Quiz, Question, Answer } from '../../../../composite/QuizComponent';
 import { useAuth } from "../../../../contexts/AuthContext";
+import { useTeacherData } from "../../../../contexts/TeacherDataContext";
+import { Quiz, Question, Answer } from '../../../../composite/QuizComponent';
 import { createQuizInFirestore } from '../../../../api/teacherService';
 import './QuizComponent.scss'
 import { Button } from "@mui/material";
 
 const CreateTestPage = () => {
   const { user } = useAuth();
+  const { refresh } = useTeacherData();
   const [quizName, setQuizName] = useState('');
   const [numberOfQuestions, setNumberOfQuestions] = useState(1);
   const [questions, setQuestions] = useState([
@@ -122,6 +124,7 @@ const CreateTestPage = () => {
         new Question('', 'choose', [new Answer(''), new Answer('')])
       ]);
       setQuizPreview(null);
+      refresh();
     } catch (error) {
       console.error('Error creating quiz in Firestore:', error);
     }

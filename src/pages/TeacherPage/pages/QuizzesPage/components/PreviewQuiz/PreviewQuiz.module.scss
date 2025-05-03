@@ -6,6 +6,7 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 10px 12px;
   position: relative;
+
   .menuBtn {
     position: absolute;
     right: 0;
@@ -30,6 +31,7 @@
     width: 100%;
     height: calc(100vh - 220px);
     overflow: scroll;
+
     .questionPreview {
       margin-bottom: 14px;
       padding: 12px;
@@ -42,11 +44,12 @@
         color: #333333;
         margin-bottom: 5px;
       }
+
       .answersTable {
         width: 100%;
         border-collapse: collapse;
         margin: 12px 0px;
-      
+
         th,
         td {
           padding: 12px;
@@ -54,17 +57,18 @@
           border-bottom: 1px solid #ddd;
           font-size: 14px;
         }
-      
+
         th {
           background-color: #ffffff;
           color: #333333;
           font-weight: bold;
         }
-      
+
         td {
           background-color: #f4f6f8;
           color: #333333;
         }
+
         .correctAnswerRow td {
           background-color: #d4edda;
           color: #155724;
@@ -75,3 +79,30 @@
   }
 }
 
+.loadingWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  max-width: 600px;
+
+  .spinner {
+    width: 48px;
+    height: 48px;
+    border: 6px solid #ffe0b2;
+    border-top: 6px solid #fb8c00;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

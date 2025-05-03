@@ -18,31 +18,37 @@ const StudentsPage = () => {
     return students.find((s) => s.id === selectedId) || null;
   }, [students, selectedId]);
 
-  if (loading) return <div>Loading...</div>;
-
   return (
     <div className={styles.wrapper}>
-      <StudentsSidebar
-        students={students}
-        selectedId={selectedId}
-        onSelectStudent={setSelectedId}
-      />
-      {selected && (
-        <StudentProfile
-          professorId={professorId}
-          student={selected}
-          quizzes={quizzes}
-          onDeleteStudent={async (deletedId) => {
-            await refresh();
-            const remaining = students.filter((s) => s.id !== deletedId);
-            if (remaining.length > 0) {
-              setSelectedId(remaining[0].id);
-            } else {
-              setSelectedId(null);
-            }
-          }}
-          refresh={refresh}
-        />
+      {loading ? (
+        <div className={styles.loadingWrapper}>
+          <div className={styles.spinner}></div>
+        </div>
+      ) : (
+        <>
+          <StudentsSidebar
+            students={students}
+            selectedId={selectedId}
+            onSelectStudent={setSelectedId}
+          />
+          {selected && (
+            <StudentProfile
+              professorId={professorId}
+              student={selected}
+              quizzes={quizzes}
+              onDeleteStudent={async (deletedId) => {
+                await refresh();
+                const remaining = students.filter((s) => s.id !== deletedId);
+                if (remaining.length > 0) {
+                  setSelectedId(remaining[0].id);
+                } else {
+                  setSelectedId(null);
+                }
+              }}
+              refresh={refresh}
+            />
+          )}
+        </>
       )}
     </div>
   );

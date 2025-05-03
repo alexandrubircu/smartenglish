@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styles from './QuizzesPage.module.scss';
 import { useTeacherData } from "../../../../contexts/TeacherDataContext";
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import SearchQuiz from "./components/SearchQuiz/SearchQuiz";
 import PreviewQuiz from "./components/PreviewQuiz/PreviewQuiz";
 
 
 const QuizzesPage = () => {
-  const { quizzes } = useTeacherData();
+  const { quizzes, refresh, loading } = useTeacherData();
   const { quizId } = useParams();
   const [selectedId, setSelectedId] = useState(null);
 
@@ -20,16 +20,23 @@ const QuizzesPage = () => {
     }
   }, [quizId, quizzes]);
 
-  console.log(quizId);
-  
   return (
+
     <div className={styles.QuizzesPageWrapper}>
-      <SearchQuiz
-        quizzes={quizzes}
-        selectedId={selectedId}
-        setSelectedId={setSelectedId}
-      />
-      <PreviewQuiz quiz={quizzes.find((q) => q.id === selectedId)} />
+      {loading ? (
+        <div className={styles.loadingWrapper}>
+          <div className={styles.spinner}></div>
+        </div>
+      ) : (
+        <>
+          <SearchQuiz
+            quizzes={quizzes}
+            selectedId={selectedId}
+            setSelectedId={setSelectedId}
+          />
+          <PreviewQuiz quiz={quizzes.find((q) => q.id === selectedId)} refresh={refresh} setSelectedId={setSelectedId} />
+        </>
+      )}
     </div>
   );
 };

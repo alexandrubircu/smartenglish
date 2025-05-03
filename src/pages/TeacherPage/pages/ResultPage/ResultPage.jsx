@@ -8,7 +8,6 @@ import {
   MenuItem,
   IconButton,
   Typography,
-  CircularProgress,
   Dialog,
   TextareaAutosize,
   Button
@@ -72,8 +71,18 @@ const ResultPage = () => {
     navigator.clipboard.writeText(copyText);
   };
 
-  if (loading) return <CircularProgress />;
-  if (!testData) return <Typography>Test not found.</Typography>;
+  if (loading) return (
+    <div className={styles.loadingWrapper}>
+      <div className={styles.spinner}></div>
+    </div>
+  );
+  if (!testData) {
+    return (
+      <div className={styles.notFoundWrapper}>
+        <p className={styles.notFoundText}>Test not found.</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.resultPageWrapper}>
