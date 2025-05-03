@@ -5,42 +5,43 @@
   padding: 32px;
   max-width: 600px;
   margin: 32px auto;
-}
 
-.title {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  text-align: center;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-
-  .input {
-    background-color: white;
-    border-radius: 14px;
+  .title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    text-align: center;
   }
 
-  .select {
-    background-color: #fffef5;
-  }
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
-  .createBtn {
-    color: #b38100;
-    border-color: #facc15;
-    background-color: white;
-    font-weight: 500;
-    text-transform: none;
+    .input {
+      background-color: white;
+      border-radius: 14px;
+    }
 
-    &:hover {
-      background-color: #fff3c4;
+    .select {
+      background-color: #fffef5;
+    }
+
+    .createBtn {
+      color: #b38100;
       border-color: #facc15;
+      background-color: white;
+      font-weight: 500;
+      text-transform: none;
+
+      &:hover {
+        background-color: #fff3c4;
+        border-color: #facc15;
+      }
     }
   }
 }
+
 
 .modal {
   position: absolute;
@@ -56,9 +57,85 @@
   align-items: center;
   gap: 16px;
 
+  .loadingWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 6px solid #ffe0b2;
+      border-top: 6px solid #fb8c00;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
   .modalText {
     font-size: 16px;
     color: #333;
     font-weight: 500;
+  }
+}
+
+.linkBox {
+  background-color: #fff7e0;
+  border: 1px dashed #facc15;
+  max-width: 600px;
+  border-radius: 14px;
+  padding: 24px;
+  margin: 32px auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .linkText {
+    font-size: 16px;
+    font-weight: 600;
+    color: #b36b00;
+  }
+
+  .linkContent {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .generatedLink {
+      flex: 1;
+      background-color: #fffef5;
+      border-radius: 10px;
+
+      input {
+        color: #5a4100;
+        font-weight: 500;
+        font-family: monospace;
+      }
+    }
+
+    .copyBtn {
+      background-color: #fb8c00;
+      color: white;
+      text-transform: none;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 10px;
+
+      &:hover {
+        background-color: #f57c00;
+      }
+    }
   }
 }

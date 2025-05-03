@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './PreviewQuiz.module.scss';
+import { useSnackbar } from 'notistack';
 import {
   IconButton,
   Menu,
@@ -9,6 +10,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { deleteQuizById } from '../../../../../../api/teacherService';
 
 const PreviewQuiz = ({ quiz, refresh, setSelectedId }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleMenuClick = (e) => setAnchorEl(e.currentTarget);
@@ -23,15 +25,13 @@ const PreviewQuiz = ({ quiz, refresh, setSelectedId }) => {
 
   const handleDeleteQuiz = async () => {
     handleClose();
-    const confirm = window.confirm("Are you sure you want to delete this quiz?");
-    if (!confirm) return;
-
     try {
       await deleteQuizById(quiz.id);
       refresh();
+      enqueueSnackbar('Quiz deleted successfully.', { variant: 'success' });
       setSelectedId(null);
     } catch (error) {
-      console.error("Failed to delete quiz:", error);
+      enqueueSnackbar('Failed to delete quiz.', { variant: 'error' });
     }
   };
 

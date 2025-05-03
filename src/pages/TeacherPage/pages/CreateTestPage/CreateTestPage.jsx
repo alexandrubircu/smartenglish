@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from './CreateTestPage.module.scss';
+import { useSnackbar } from 'notistack';
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useTeacherData } from "../../../../contexts/TeacherDataContext";
 import { Quiz, Question, Answer } from '../../../../composite/QuizComponent';
@@ -8,6 +9,7 @@ import './QuizComponent.scss'
 import { Button } from "@mui/material";
 
 const CreateTestPage = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const { user } = useAuth();
   const { refresh } = useTeacherData();
   const [quizName, setQuizName] = useState('');
@@ -125,8 +127,9 @@ const CreateTestPage = () => {
       ]);
       setQuizPreview(null);
       refresh();
+      enqueueSnackbar('Quiz created successfully!', { variant: 'success' });
     } catch (error) {
-      console.error('Error creating quiz in Firestore:', error);
+      enqueueSnackbar('Failed to create quiz.', { variant: 'error' });
     }
   };
 

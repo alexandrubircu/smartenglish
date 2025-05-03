@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from './ResultPage.module.scss';
 import { useParams } from "react-router-dom";
+import { useSnackbar } from 'notistack';
 import {
   Box,
   Avatar,
@@ -19,6 +20,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const ResultPage = () => {
+  const { enqueueSnackbar } = useSnackbar();
   const { studentId, completedTestId, notifId } = useParams();
   const [testData, setTestData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +37,7 @@ const ResultPage = () => {
           await markNotificationAsRead(notifId);
         }
       } catch (err) {
-        console.error("❌", err.message);
+        enqueueSnackbar('Failed to load test data.', { variant: 'error' });
       } finally {
         setLoading(false);
       }
@@ -69,6 +71,7 @@ const ResultPage = () => {
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(copyText);
+    enqueueSnackbar('Copied to clipboard!', { variant: 'info' });
   };
 
   if (loading) return (

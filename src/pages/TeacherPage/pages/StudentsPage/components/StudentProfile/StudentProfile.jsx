@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from "react";
+import { useSnackbar } from 'notistack';
 import {
   Box,
   Typography,
@@ -21,6 +22,7 @@ import { observeActiveTests } from "../../../../../../api/observeActiveTests";
 import { useNavigate } from "react-router-dom";
 
 const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
+  const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const [liveCompletedTests, setLiveCompletedTests] = useState({});
   const [liveActiveTests, setLiveActiveTests] = useState({});
@@ -83,9 +85,10 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
     try {
       await deleteStudentById(student.id);
       handleClose();
+      enqueueSnackbar('Student deleted successfully.', { variant: 'success' });
       if (onDeleteStudent) onDeleteStudent(student.id);
     } catch (error) {
-      console.error("Eroare la ștergerea studentului:", error);
+      enqueueSnackbar('Failed to delete student.', { variant: 'error' });
     }
   };
 
@@ -98,10 +101,10 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
       };
 
       await assignQuizToStudent(student.id, assignment);
-      alert("✅ Test assigned cu succes!");
+      enqueueSnackbar('Test assigned successfully!', { variant: 'success' });
     } catch (err) {
       console.error("❌ Eroare la asignare test:", err);
-      alert("❌ A apărut o eroare la asignare.");
+      enqueueSnackbar('Error assigning test.', { variant: 'error' });
     }
   };
 
@@ -127,11 +130,13 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
             try {
               if (showCompleted) {
                 await deleteCompletedTest(student.id, test.id);
+                enqueueSnackbar('Completed test deleted.', { variant: 'success' });
               } else {
                 await deleteActiveTest(student.id, test.id);
+                enqueueSnackbar('Active test deleted.', { variant: 'success' });
               }
             } catch (err) {
-              console.error("Error deleting test:", err);
+              enqueueSnackbar('Failed to delete test.', { variant: 'error' });
             }
           }}
           className={styles.deleteBtn}
@@ -145,6 +150,7 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
             onClick={() => {
               const link = `${window.location.origin}/start-test/${student.id}/${test.id}`;
               navigator.clipboard.writeText(link);
+              enqueueSnackbar('Link copied to clipboard!', { variant: 'info' });
             }}
             className={styles.copyBtn}
             size="small"
