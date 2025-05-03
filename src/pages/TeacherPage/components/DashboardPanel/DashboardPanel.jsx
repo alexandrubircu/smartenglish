@@ -188,7 +188,7 @@ const DashboardPanel = () => {
             <Route path="students" element={<StudentsPage />} />
             <Route path="createuser" element={<CreateUserPage />} />
             <Route path="createtest" element={<CreateTestPage />} />
-            <Route path="results/:studentId/:completedTestId/:notifId" element={<ResultPage />} />
+            <Route path="results/:studentId/:completedTestId/:notifId?" element={<ResultPage />} />
           </Routes>
         </div>
       </div>

@@ -41,6 +41,7 @@ const StudentsPage = () => {
               setSelectedId(null);
             }
           }}
+          refresh={refresh}
         />
       )}
     </div>

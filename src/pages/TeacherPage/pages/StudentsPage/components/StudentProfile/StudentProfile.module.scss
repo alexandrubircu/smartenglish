@@ -41,247 +41,254 @@
     }
   }
 
-  .tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 10px;
+  .studentFunctionalityWrapper {
 
-    button {
-      padding: 6px 12px;
-      font-weight: bold;
-      background: #f0f0f0;
-      border: none;
-      cursor: pointer;
-      border-radius: 6px;
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
 
-      &.activeTab {
-        background: #ffd966;
-        color: white;
-      }
-    }
-  }
+      button {
+        padding: 6px 12px;
+        font-weight: bold;
+        background: #f0f0f0;
+        border: none;
+        cursor: pointer;
+        border-radius: 6px;
 
-  .tabTitile {
-    width: 100%;
-    height: fit-content;
-
-    p {
-      font-size: 16px;
-      font-weight: 600;
-      width: fit-content;
-      padding: 5px;
-      border-bottom: 2px solid orange;
-      border-radius: 12px;
-    }
-  }
-
-  .completedTestWrapper {
-    width: 100%;
-    max-width: 1000px;
-    height: calc(100vh - 265px);
-    background-color: #fff9db;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 10px 12px;
-
-    .complitedContent {
-      max-height: 100%;
-      overflow-y: auto;
-      border-radius: 10px;
-      padding: 10px;
-
-      .testGrid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 12px;
-
-        .testCard {
-          background: #ffffff;
-          border-radius: 12px;
-          padding: 12px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-          .testDates {
-            font-size: 0.85rem;
-            color: #444;
-            cursor: pointer;
-
-            p {
-              margin: 2px 0;
-            }
-
-            .testCardTitle {
-              font-weight: 600;
-              margin-bottom: 8px;
-              color: black;
-            }
-          }
-
-          .testCardActions {
-            display: flex;
-            .deleteBtn {
-              color: #c0392b;
-
-              &:hover {
-                color: #e74c3c;
-                transform: scale(1.1);
-              }
-
-              transition: all 0.2s ease;
-            }
-          }
-
+        &.activeTab {
+          background: #ffd966;
+          color: white;
         }
       }
-
-      .emptyText {
-        text-align: center;
-        color: #777;
-        font-style: italic;
-      }
     }
 
-  }
+    .tabTitile {
+      width: 100%;
+      height: fit-content;
 
-  .activeTestWrapper {
-    width: 100%;
-    max-width: 1000px;
-    height: calc(100vh - 265px);
-    background-color: #fff9db;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 10px 12px;
-
-    .activeContent {
-      max-height: 300px;
-      overflow-y: auto;
-      border-radius: 10px;
-      padding: 10px;
-
-      .testGrid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 12px;
-
-        .testCard {
-          background: #ffffff;
-          border-radius: 12px;
-          padding: 12px;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
-
-          .testDates {
-            font-size: 0.85rem;
-            color: #444;
-            cursor: pointer;
-
-            p {
-              margin: 2px 0;
-            }
-
-            .testCardTitle {
-              font-weight: 600;
-              margin-bottom: 8px;
-              color: black;
-            }
-          }
-
-          .testCardActions {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-around;
-            .deleteBtn {
-              color: #c0392b;
-
-              &:hover {
-                color: #e74c3c;
-                transform: scale(1.1);
-              }
-
-              transition: all 0.2s ease;
-            }
-          }
-
-        }
-      }
-
-      .emptyText {
-        text-align: center;
-        color: #777;
-        font-style: italic;
-      }
-    }
-
-
-  }
-
-  .asignTestWrapper {
-    width: 100%;
-    max-width: 1000px;
-    height: calc(100vh - 265px);
-    background-color: #fff9db;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
-    padding: 10px 12px;
-
-    .assignSearch {
-      margin-top: 10px;
-      margin-bottom: 16px;
-
-      .searchInput {
-        margin-bottom: 14px;
-        background-color: white;
+      p {
+        font-size: 16px;
+        font-weight: 600;
+        width: fit-content;
+        padding: 5px;
+        border-bottom: 2px solid orange;
         border-radius: 12px;
       }
     }
 
-    .testList {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      max-height: 300px;
-      overflow-y: auto;
-    }
+    .completedTestWrapper {
+      width: 100%;
+      max-width: 1000px;
+      height: calc(100vh - 265px);
+      background-color: #fff9db;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
 
-    .testItem {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #ffffff;
-      padding: 10px 14px;
-      border-radius: 6px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      .complitedContent {
+        max-height: 800px;
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 10px;
 
-      .testTitle {
-        font-weight: 500;
-      }
+        .testGrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 12px;
 
-      .assignBtn {
-        color: #b38100;
-        border-color: #facc15;
-        background-color: white;
-        font-weight: 500;
-        text-transform: none;
+          .testCard {
+            width: fit-content;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
 
-        &:hover {
-          background-color: #fff3c4;
-          border-color: #facc15;
+            .testDates {
+              font-size: 0.85rem;
+              color: #444;
+              cursor: pointer;
+
+              p {
+                margin: 2px 0;
+              }
+
+              .testCardTitle {
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: black;
+              }
+            }
+
+            .testCardActions {
+              display: flex;
+
+              .deleteBtn {
+                color: #c0392b;
+
+                &:hover {
+                  color: #e74c3c;
+                  transform: scale(1.1);
+                }
+
+                transition: all 0.2s ease;
+              }
+            }
+
+          }
+        }
+
+        .emptyText {
+          text-align: center;
+          color: #777;
+          font-style: italic;
         }
       }
+
     }
 
-    .emptyText {
-      text-align: center;
-      color: #888;
-      font-style: italic;
+    .activeTestWrapper {
+      width: 100%;
+      max-width: 1000px;
+      height: calc(100vh - 265px);
+      background-color: #fff9db;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+
+      .activeContent {
+        max-height: 800px;
+        overflow-y: auto;
+        border-radius: 10px;
+        padding: 10px;
+
+        .testGrid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+          gap: 12px;
+
+          .testCard {
+            width: fit-content;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+
+            .testDates {
+              font-size: 0.85rem;
+              color: #444;
+              cursor: pointer;
+
+              p {
+                margin: 2px 0;
+              }
+
+              .testCardTitle {
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: black;
+              }
+            }
+
+            .testCardActions {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: space-around;
+
+              .deleteBtn {
+                color: #c0392b;
+
+                &:hover {
+                  color: #e74c3c;
+                  transform: scale(1.1);
+                }
+
+                transition: all 0.2s ease;
+              }
+            }
+
+          }
+        }
+
+        .emptyText {
+          text-align: center;
+          color: #777;
+          font-style: italic;
+        }
+      }
+
+
+    }
+
+    .asignTestWrapper {
+      width: 100%;
+      max-width: 1000px;
+      height: calc(100vh - 265px);
+      background-color: #fff9db;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 10px 12px;
+
+      .assignSearch {
+        margin-top: 10px;
+        margin-bottom: 16px;
+
+        .searchInput {
+          margin-bottom: 14px;
+          background-color: white;
+          border-radius: 12px;
+        }
+      }
+
+      .testList {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        max-height: 300px;
+        overflow-y: auto;
+      }
+
+      .testItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ffffff;
+        padding: 10px 14px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+
+        .testTitle {
+          font-weight: 500;
+        }
+
+        .assignBtn {
+          color: #b38100;
+          border-color: #facc15;
+          background-color: white;
+          font-weight: 500;
+          text-transform: none;
+
+          &:hover {
+            background-color: #fff3c4;
+            border-color: #facc15;
+          }
+        }
+      }
+
+      .emptyText {
+        text-align: center;
+        color: #888;
+        font-style: italic;
+      }
     }
   }
 

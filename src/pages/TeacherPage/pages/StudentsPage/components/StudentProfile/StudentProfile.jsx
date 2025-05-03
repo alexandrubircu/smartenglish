@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -15,35 +15,56 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import styles from "./StudentProfile.module.scss";
 
 import { deleteStudentById, deleteCompletedTest, deleteActiveTest, assignQuizToStudent } from "../../../../../../api/teacherService";
+import { observeCompletedTests } from "../../../../../../api/observeCompletedTests";
+import { observeActiveTests } from "../../../../../../api/observeActiveTests";
+
+import { useNavigate } from "react-router-dom";
 
 const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
+  const navigate = useNavigate();
+  const [liveCompletedTests, setLiveCompletedTests] = useState({});
+  const [liveActiveTests, setLiveActiveTests] = useState({});
+  useEffect(() => {
+    if (!student?.id) return;
+
+    const unsubscribe = observeCompletedTests(student.id, (updatedTests) => {
+      setLiveCompletedTests(updatedTests);
+    });
+
+    return () => unsubscribe();
+  }, [student?.id]);
+  useEffect(() => {
+    if (!student?.id) return;
+
+    const unsubscribe = observeActiveTests(student.id, (updatedQuizzes) => {
+      setLiveActiveTests(updatedQuizzes);
+    });
+
+    return () => unsubscribe();
+  }, [student?.id]);
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const [activeTab, setActiveTab] = useState("completed");
   const [searchTerm, setSearchTerm] = useState("");
 
   const completedTests = useMemo(() => {
-    if (!student?.completedTests) return [];
-
-    return Object.entries(student.completedTests).map(([testId, test]) => ({
+    return Object.entries(liveCompletedTests).map(([testId, test]) => ({
       id: testId,
       quizId: test.id,
       title: test.quizName,
       assignedAt: new Date(test.assignedAt).toLocaleString(),
       completedAt: new Date(test.completedAt).toLocaleString(),
     }));
-  }, [student]);
+  }, [liveCompletedTests]);
 
   const activeTests = useMemo(() => {
-    if (!student?.quizzes) return [];
-
-    return Object.entries(student.quizzes).map(([assignedQuizId, quiz]) => ({
+    return Object.entries(liveActiveTests).map(([assignedQuizId, quiz]) => ({
       id: assignedQuizId,
       quizId: quiz.quizId,
       title: quiz.quizName,
       assignedAt: new Date(quiz.timestamp).toLocaleString(),
     }));
-  }, [student]);
+  }, [liveActiveTests]);
 
   const filteredTests = useMemo(() => {
     if (!quizzes) return [];
@@ -88,7 +109,11 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
 
   const renderTestCard = (test, showCompleted = false) => (
     <div key={test.id} className={styles.testCard}>
-      <div className={styles.testDates}>
+      <div className={styles.testDates} onClick={() => {
+        if (showCompleted) {
+          navigate(`/dashboard/results/${student.id}/${test.id}`);
+        }
+      }}>
         <div className={styles.testCardTitle}>{test.title}</div>
         <p>Assigned: {test.assignedAt}</p>
         {showCompleted && <p>Completed: {test.completedAt}</p>}
@@ -96,10 +121,14 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
       <div className={styles.testCardActions}>
         <IconButton
           onClick={async () => {
-            if (showCompleted) {
-              await deleteCompletedTest(student.id, test.id);
-            } else {
-              await deleteActiveTest(student.id, test.id);
+            try {
+              if (showCompleted) {
+                await deleteCompletedTest(student.id, test.id);
+              } else {
+                await deleteActiveTest(student.id, test.id);
+              }
+            } catch (err) {
+              console.error("Error deleting test:", err);
             }
           }}
           className={styles.deleteBtn}

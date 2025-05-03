@@ -21,7 +21,6 @@ export const TeacherDataProvider = ({ children }) => {
   const [notifications, setNotifications] = useState([]);
   
   const refresh = async () => {
-    setLoading(true);
     try {
       const [studentsData, quizzesData] = await Promise.all([
         fetchAllStudents(),
@@ -32,7 +31,6 @@ export const TeacherDataProvider = ({ children }) => {
     } catch (err) {
       console.error('❌ Eroare la încărcarea datelor:', err);
     } finally {
-      setLoading(false);
     }
   };
 
@@ -58,8 +56,21 @@ export const TeacherDataProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    refresh();
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        await refresh();
+      } catch (err) {
+        console.error("Error loading data:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
   }, []);
+  
+  
 
   return (
     <TeacherDataContext.Provider

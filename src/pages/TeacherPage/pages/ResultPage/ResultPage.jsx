@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
+import styles from './ResultPage.module.scss';
 import { useParams } from "react-router-dom";
 import {
   Box,
+  Avatar,
+  Menu,
+  MenuItem,
+  IconButton,
   Typography,
   CircularProgress,
-  Button,
   Dialog,
   TextareaAutosize,
+  Button
 } from "@mui/material";
 import {
   fetchCompletedTestByStudent,
   markNotificationAsRead,
 } from "../../../../api/teacherService";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const ResultPage = () => {
   const { studentId, completedTestId, notifId } = useParams();
@@ -39,16 +45,21 @@ const ResultPage = () => {
     loadTest();
   }, [studentId, completedTestId, notifId]);
 
+  const [anchorEl, setAnchorEl] = useState(null);
+  const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
+  const handleClose = () => setAnchorEl(null);
+  const isMenuOpen = Boolean(anchorEl);
+
   const handleOpenDialog = () => {
     if (!testData) return;
 
-    let content = `🌟 Test: ${testData.quizName} 🌟\nElev: ${testData.studentName}\n\n`;
+    let content = `🌟 Test: ${testData.quizName} 🌟\nStudent: ${testData.studentName}\n\n`;
 
     testData.answersQuestion?.forEach((item, index) => {
-      const isCorrect = item.correct ? "✅ Corect" : "❌ Greșit";
+      const isCorrect = item.correct ? "✅ Correct" : "❌ Wrong";
       content += `${index + 1}. ${item.question}\n   ➡️ ${item.userAnswer || "-"}  ${isCorrect}\n`;
       if (!item.correct && item.correctTextAnswers?.length > 0) {
-        content += `   ✅ Răspunsuri corecte: ${item.correctTextAnswers.join(", ")}\n`;
+        content += `   ✅ Correct answers: ${item.correctTextAnswers.join(", ")}\n`;
       }
       content += `\n`;
     });
@@ -62,54 +73,86 @@ const ResultPage = () => {
   };
 
   if (loading) return <CircularProgress />;
-  if (!testData) return <Typography>Testul nu a fost găsit.</Typography>;
+  if (!testData) return <Typography>Test not found.</Typography>;
 
   return (
-    <Box sx={{ p: 4 }}>
-      <Typography variant="h5">Rezultat Test</Typography>
-      <Typography variant="subtitle1">Elev: {testData.studentName}</Typography>
-      <Typography variant="body1">Test: {testData.quizName}</Typography>
-      <Typography variant="body1">
-        Finalizat la: {new Date(testData.completedAt).toLocaleString()}
-      </Typography>
-
-      <Box mt={3}>
-        <Typography variant="h6">Răspunsuri:</Typography>
-        {testData.answersQuestion?.map((item, index) => (
-          <Box key={index} sx={{ mb: 2, p: 2, border: "1px solid #ccc", borderRadius: 2 }}>
-            <Typography fontWeight="bold">{index + 1}. {item.question}</Typography>
-            <Typography color={item.correct ? "green" : "red"}>
-              Răspuns elev: {item.userAnswer || "-"} ({item.correct ? "corect" : "greșit"})
-            </Typography>
-            {!item.correct && item.correctTextAnswers?.length > 0 && (
-              <Typography variant="body2">
-                Răspunsuri corecte: {item.correctTextAnswers.join(", ")}
-              </Typography>
-            )}
-          </Box>
-        ))}
+    <div className={styles.resultPageWrapper}>
+      <Box className={styles.cardWrapper}>
+        <Avatar alt={testData.studentName} src="/avatar.png" className={styles.avatar} />
+        <Box className={styles.details}>
+          <Typography variant="h6" className={styles.name}>
+            {testData.studentName || "Unknown name"}
+          </Typography>
+          <Typography className={styles.email}>
+            {testData.quizName || "Unknown quiz"}
+          </Typography>
+        </Box>
       </Box>
-
-      <Button variant="outlined" sx={{ mt: 3 }} onClick={handleOpenDialog}>
-        Copiază rezultatul
-      </Button>
-
-      <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
-        <Box sx={{ p: 3, width: 400 }}>
-          <Typography variant="h6">Rezumat test</Typography>
+      <Box className={styles.testListWrapper}>
+        <IconButton onClick={handleMenuClick} className={styles.menuBtn}>
+          <MoreVertIcon />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={isMenuOpen}
+          onClose={handleClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "right" }}
+        >
+          <MenuItem onClick={handleOpenDialog}>Copy test result</MenuItem>
+        </Menu>
+        <div className={styles.resultList}>
+          {testData.answersQuestion?.map((item, index) => (
+            <div
+              key={index}
+              className={`${styles.resultItem} ${item.correct ? styles.correct : styles.wrong}`}
+            >
+              <p className={styles.question}><b>{index + 1}.</b> {item.question}</p>
+              <p className={styles.answer}>
+                Student answer: <b>{item.userAnswer || "-"}</b>
+              </p>
+              {!item.correct && item.correctTextAnswers?.length > 0 && (
+                <p className={styles.correctAnswers}>
+                  Correct answers: <b>{item.correctTextAnswers.join(", ")}</b>
+                </p>
+              )}
+            </div>
+          ))}
+        </div>
+      </Box>
+      <Dialog
+        open={openDialog}
+        onClose={() => setOpenDialog(false)}
+        PaperProps={{ className: styles.customDialog }}
+      >
+        <Box className={styles.dialogContent}>
+          <Typography className={styles.dialogTitle}>Test summary</Typography>
           <TextareaAutosize
             minRows={10}
-            style={{ width: "100%", marginTop: 10 }}
+            className={styles.dialogTextarea}
             value={copyText}
             onChange={(e) => setCopyText(e.target.value)}
           />
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button onClick={() => setOpenDialog(false)}>Închide</Button>
-            <Button onClick={copyToClipboard} variant="contained">Copiază</Button>
+          <Box className={styles.dialogActions}>
+            <Button
+              className={styles.modalBtn}
+              style={{ backgroundColor: "transparent" }}
+              onClick={() => setOpenDialog(false)}
+            >
+              Close
+            </Button>
+            <Button
+              variant="outlined"
+              size="small"
+              className={styles.modalBtn}
+              onClick={copyToClipboard}
+            >
+              Copy
+            </Button>
           </Box>
         </Box>
       </Dialog>
-    </Box>
+    </div>
   );
 };
 

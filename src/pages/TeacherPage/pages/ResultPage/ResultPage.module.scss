@@ -1,228 +1,151 @@
-.QuizResultBlock {
-  width: fit-content;
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: start;
+.resultPageWrapper {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 
-  .nextWindowIcon {
-      width: 40px;
-      height: 40px;
-      margin: var(--default-padding);
-      color: var(--primary-text-color);
-  }
-}
+    .cardWrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: fit-content;
+        background-color: #fff9db;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 10px 35px 10px 12px;
+        gap: 12px;
+        position: relative;
 
-.Loading {
-  background-color: var(--secondary-bg-color); 
-  width: 100%;
-  height: 100%;
-}
-
-.QuizResult {
-  background-color: var(--secondary-bg-color); 
-  width: 900px;
-  height: 100%;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow-light);
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  align-items: center;
-  overflow: hidden;
-
-  .quizResultTitle {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px;
-
-      p {
-          font-size: var(--font-size-large);
-          font-weight: 700;
-          color: var(--primary-text-color);
-          text-transform: uppercase;
-          letter-spacing: 1.5px;
-      }
-
-      .closeButton {
-          padding: 5px;
-          cursor: pointer;
-
-          .closeIcon {
-              font-size: var(--font-size-large);
-              color: var(--primary-text-color);
-              transition: color 0.3s ease, transform 0.3s ease;
-          }
-
-          &:hover .closeIcon {
-              color: var(--icon-hover-color);
-          }
-
-          &:active .closeIcon {
-              transform: scale(0.85);
-          }
-      }
-  }
-
-  .QuizResultItems {
-      width: 100%;
-      height: calc(100% - 90px);
-      padding: 0px var(--default-padding);
-      overflow-y: auto;
-
-      p {
-          font-size: var(--font-size-base);
-          color: var(--primary-text-color);
-      }
-      p:first-child {
-          font-size: var(--font-size-small);
-          color: gray;
+        .avatar {
+            width: 64px;
+            height: 64px;
         }
 
-      .QuizResultItem {
-          background-color: var(--primary-bg-color);
-          margin-top: 16px;
-          padding: 15px;
-          margin-bottom: 15px;
-          border-radius: var(--border-radius-md);
+        .details {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
 
-          .answersTable {
-              width: 100%;
-              border-collapse: collapse;
-              margin-top: 15px;
+            .name {
+                font-weight: 600;
+                color: #333;
+            }
+        }
+    }
 
-              th, td {
-                  padding: 10px;
-                  border: 1px solid #ddd;
-                  font-size: var(--font-size-base);
-              }
+    .testListWrapper {
+        width: 100%;
+        height: 100%;
+        background-color: #fff9db;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        padding: 10px 12px;
+        position: relative;
 
-              th {
-                  background-color: var(--primary-bg-color);
-                  color: var(--primary-text-color);
-                  font-size: var(--font-size-base);
-              }
+        .menuBtn {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
 
-              td {
-                  background-color: var(--secondary-bg-color);
-                  color: var(--primary-text-color);
-              }
+    .resultList {
+        width: 100%;
+        height: 100%;
+        max-height: calc(100vh - 100px);
+        overflow: scroll;
+        padding-right: 30px;
 
-              .correctAnswerRow td {
-                  background-color: #d4edda;
-                  color: #155724;
-              }
+        .resultItem {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
 
-              .wrongAnswerRow td {
-                  background-color: #f8d7da;
-                  color: #721c24;
-                  font-weight: bold;
-              }
-          }
-      }
-  }
+        .correct {
+            border-left: 5px solid #4caf50;
+        }
 
-  .coppyBtBlock {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-  }
+        .wrong {
+            border-left: 5px solid #f44336;
+        }
 
-  .coppyBt {
-      margin: 20px;
-      color: var(--button-text-color);
-  }
+        .question {
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        .answer,
+        .status,
+        .correctAnswers {
+            margin: 2px 0;
+            color: #555;
+        }
+
+    }
 }
 
 .customDialog {
-  border-radius: var(--border-radius) !important;
-  width: 900px !important;
-  height: fit-content;
-}
+    border-radius: 16px !important;
+    width: 500px !important;
+    background-color: #fffdf4 !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 
-.resultDialog {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--secondary-bg-color);
-}
+    .dialogContent {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
 
-.resultDialogHeader {
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 20px;
+        .dialogTitle {
+            font-size: 20px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
 
-  p {
-      font-size: var(--font-size-large);
-      font-weight: bold;
-      color: var(--primary-text-color);
-  }
-
-  .closeButton {
-      cursor: pointer;
-      background: none;
-      border: none;
-      padding: 5px;
-
-      .closeIcon {
-          font-size: var(--font-size-large);
-          color: var(--primary-text-color);
-          transition: color 0.3s ease;
-
-          &:hover {
-              color: var(--icon-hover-color);
+        .dialogTextarea {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            line-height: 1.5;
+            border-radius: 8px;
+            border: 1px solid #ffa726;
+            resize: vertical;
+            font-family: inherit;
+            background-color: #fff;
+            color: #222;
+            outline: none;
+          
+            &:focus {
+              border-color: #fb8c00;
+            }
           }
-      }
-  }
-}
+          
 
-.resultDialogContent {
-  width: 100%;
-  margin-bottom: 20px;
+        .dialogActions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
 
-  .resultTextarea {
-      width: 100%;
-      height: 500px;
-      border-radius: var(--border-radius-md);
-      padding: 10px;
-      resize: none;
-      font-size: var(--font-size-base);
-      line-height: 1.5;
-      color: var(--primary-text-color);
-      font-family: inherit;
-  }
-}
+            .modalBtn {
+                color: #b38100;
+                border-color: #facc15;
+                background-color: white;
+                font-weight: 500;
+                text-transform: none;
 
-.resultDialogActions {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
+                &:hover {
+                    background-color: #fff3c4;
+                    border-color: #facc15;
+                }
+            }
+        }
 
-  .closeDialogButton {
-      background-color: #ff4c4c;
-
-      &:hover {
-          background-color: #d63333;
-      }
-  }
-
-  .copyButton {
-      color: var(--button-text-color);
-  }
-}
-@media (max-width: 1830px) {
-  .QuizResult{
-      width: 700px;
-  }
-}
-@media (max-width: 1630px) {
-  .QuizResult{
-      width: 500px;
-  }
+    }
 }
