@@ -113,6 +113,9 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
         if (showCompleted) {
           navigate(`/dashboard/results/${student.id}/${test.id}`);
         }
+        if (!showCompleted) {
+          navigate(`/dashboard/quizprev/${test.quizId}`);
+        }
       }}>
         <div className={styles.testCardTitle}>{test.title}</div>
         <p>Assigned: {test.assignedAt}</p>
@@ -267,13 +270,18 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
                 <p className={styles.emptyText}>No tests found.</p>
               ) : (
                 filteredTests.map((test) => (
-                  <div key={test.id} className={styles.testItem}>
+                  <div key={test.id} className={styles.testItem} onClick={() => {
+                    navigate(`/dashboard/quizprev/${test.id}`);
+                  }}>
                     <span className={styles.testTitle}>{test.title}</span>
                     <Button
                       variant="outlined"
                       size="small"
                       className={styles.assignBtn}
-                      onClick={() => handleAssign(test)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleAssign(test);
+                      }}
                     >
                       Assign Test
                     </Button>

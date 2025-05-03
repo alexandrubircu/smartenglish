@@ -21,6 +21,7 @@ import StudentsPage from "../../pages/StudentsPage/StudentsPage";
 import CreateUserPage from "../../pages/CreateUserPage/CreateUserPage";
 import CreateTestPage from "../../pages/CreateTestPage/CreateTestPage";
 import ResultPage from "../../pages/ResultPage/ResultPage";
+import QuizzesPage from "../../pages/QuizzesPage/QuizzesPage";
 
 const DashboardPanel = () => {
   const { logout } = useAuth();
@@ -186,9 +187,10 @@ const DashboardPanel = () => {
           <Routes>
             <Route index element={<DashboardOverview />} />
             <Route path="students" element={<StudentsPage />} />
+            <Route path="results/:studentId/:completedTestId/:notifId?" element={<ResultPage />} />
             <Route path="createuser" element={<CreateUserPage />} />
             <Route path="createtest" element={<CreateTestPage />} />
-            <Route path="results/:studentId/:completedTestId/:notifId?" element={<ResultPage />} />
+            <Route path="quizprev/:quizId?" element={<QuizzesPage />} />
           </Routes>
         </div>
       </div>

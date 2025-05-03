@@ -100,3 +100,8 @@ export const deleteActiveTest = async (studentId, quizAssignId) => {
     [`quizzes.${quizAssignId}`]: deleteField()
   });
 };
+
+export const deleteQuizById = async (quizId) => {
+  const quizRef = doc(db, "quizzes", quizId);
+  await deleteDoc(quizRef);
+};

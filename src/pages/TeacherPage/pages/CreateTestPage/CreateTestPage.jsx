@@ -74,7 +74,6 @@ const CreateTestPage = () => {
     const updatedQuestions = [...questions];
     updatedQuestions[questionIndex].correctAnswer = answerIndex;
 
-    // Обновляем правильные ответы
     updatedQuestions[questionIndex].answers.forEach((ans, idx) => {
       ans.isCorrect = idx === answerIndex;
     });
@@ -117,7 +116,6 @@ const CreateTestPage = () => {
       const professorId = user.uid;
       await createQuizInFirestore(professorId, quizPreview.toJSON());
 
-      // Сброс формы
       setQuizName('');
       setNumberOfQuestions(1);
       setQuestions([

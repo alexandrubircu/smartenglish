@@ -18,27 +18,27 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
 
-.input {
-  background-color: white;
-  border-radius: 14px;
-}
+  .input {
+    background-color: white;
+    border-radius: 14px;
+  }
 
-.select {
-  background-color: #fffef5;
-}
+  .select {
+    background-color: #fffef5;
+  }
 
-.createBtn {
-  color: #b38100;
-  border-color: #facc15;
-  background-color: white;
-  font-weight: 500;
-  text-transform: none;
-
-  &:hover {
-    background-color: #fff3c4;
+  .createBtn {
+    color: #b38100;
     border-color: #facc15;
+    background-color: white;
+    font-weight: 500;
+    text-transform: none;
+
+    &:hover {
+      background-color: #fff3c4;
+      border-color: #facc15;
+    }
   }
 }
 
@@ -55,10 +55,10 @@
   flex-direction: column;
   align-items: center;
   gap: 16px;
-}
 
-.modalText {
-  font-size: 16px;
-  color: #333;
-  font-weight: 500;
+  .modalText {
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+  }
 }

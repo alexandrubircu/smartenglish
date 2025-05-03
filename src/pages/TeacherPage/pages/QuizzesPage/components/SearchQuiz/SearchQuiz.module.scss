@@ -1,0 +1,72 @@
+.SearchQuizwrapp {
+  width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff9db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 10px 12px;
+
+  .title {
+    color: #222;
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .search {
+    margin-bottom: 14px;
+    background-color: white;
+    border-radius: 12px;
+  }
+
+  .filter {
+    margin-bottom: 16px;
+
+    .MuiOutlinedInput-root {
+      background-color: #fffef5;
+      border-radius: 6px;
+    }
+
+    .MuiSelect-select {
+      background-color: #fffef5;
+    }
+  }
+
+  :global(.MuiMenuItem-root) {
+    &.Mui-selected {
+      background-color: #ffe97f !important;
+    }
+
+    &:hover {
+      background-color: #fff3c4 !important;
+    }
+  }
+
+  .list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .listItem {
+      background-color: white;
+      border-radius: 12px;
+      border: 1px solid #ffcc80;
+      transition: background-color 0.2s ease;
+
+      cursor: pointer;
+
+      &:hover {
+        border: 1px solid orange;
+      }
+
+      &.selected {
+        border: 2px solid orange;
+      }
+    }
+
+    .avatar {
+      margin-right: 12px;
+    }
+  }
+}
