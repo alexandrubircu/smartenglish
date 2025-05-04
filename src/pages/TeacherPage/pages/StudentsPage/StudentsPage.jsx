@@ -24,6 +24,10 @@ const StudentsPage = () => {
         <div className={styles.loadingWrapper}>
           <div className={styles.spinner}></div>
         </div>
+      ) : students.length === 0 ? (
+        <div className={styles.noStudents}>
+          No students available.
+        </div>
       ) : (
         <>
           <StudentsSidebar
@@ -52,6 +56,7 @@ const StudentsPage = () => {
       )}
     </div>
   );
+
 };
 
 export default StudentsPage;

@@ -21,11 +21,14 @@ const QuizzesPage = () => {
   }, [quizId, quizzes]);
 
   return (
-
     <div className={styles.QuizzesPageWrapper}>
       {loading ? (
         <div className={styles.loadingWrapper}>
           <div className={styles.spinner}></div>
+        </div>
+      ) : quizzes.length === 0 ? (
+        <div className={styles.noQuizzes}>
+          No quizzes available.
         </div>
       ) : (
         <>
@@ -34,11 +37,16 @@ const QuizzesPage = () => {
             selectedId={selectedId}
             setSelectedId={setSelectedId}
           />
-          <PreviewQuiz quiz={quizzes.find((q) => q.id === selectedId)} refresh={refresh} setSelectedId={setSelectedId} />
+          <PreviewQuiz
+            quiz={quizzes.find((q) => q.id === selectedId)}
+            refresh={refresh}
+            setSelectedId={setSelectedId}
+          />
         </>
       )}
     </div>
   );
+  
 };
 
 export default QuizzesPage;

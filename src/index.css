@@ -17,3 +17,22 @@ code {
   margin: 0px;
   padding: 0px;
 }
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #999 transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}

@@ -45,7 +45,7 @@
   .list {
     width: 100%;
     height: calc(100vh - 235px);
-    overflow: scroll;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
     gap: 5px;

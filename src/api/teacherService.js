@@ -1,4 +1,15 @@
-import { addDoc, collection, getDocs, getDoc, doc, updateDoc, deleteDoc, deleteField } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  getDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+  deleteField,
+  query,
+  where
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { createStudent } from "../factories/userFactory";
 import { v4 as uuidv4 } from "uuid";
@@ -82,6 +93,15 @@ export const markNotificationAsRead = async (notifId) => {
 };
 
 export const deleteStudentById = async (studentId) => {
+  const notificationsRef = collection(db, "notifications");
+  const q = query(notificationsRef, where("studentId", "==", studentId));
+  const snapshot = await getDocs(q);
+
+  const deleteNotifPromises = snapshot.docs.map((docSnap) =>
+    deleteDoc(doc(db, "notifications", docSnap.id))
+  );
+  await Promise.all(deleteNotifPromises);
+
   const studentRef = doc(db, "students", studentId);
   await deleteDoc(studentRef);
 };
@@ -92,7 +112,18 @@ export const deleteCompletedTest = async (studentId, testId) => {
   await updateDoc(studentRef, {
     [`completedTests.${testId}`]: deleteField()
   });
+
+  const notificationsRef = collection(db, "notifications");
+  const q = query(notificationsRef, where("completedTestId", "==", testId));
+  const snapshot = await getDocs(q);
+
+  const deletePromises = snapshot.docs.map((docSnap) =>
+    deleteDoc(doc(db, "notifications", docSnap.id))
+  );
+
+  await Promise.all(deletePromises);
 };
+
 
 export const deleteActiveTest = async (studentId, quizAssignId) => {
   const studentRef = doc(db, "students", studentId);

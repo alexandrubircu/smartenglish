@@ -30,7 +30,7 @@
   .questionsList {
     width: 100%;
     height: calc(100vh - 220px);
-    overflow: scroll;
+    overflow-y: scroll;
 
     .questionPreview {
       margin-bottom: 14px;
