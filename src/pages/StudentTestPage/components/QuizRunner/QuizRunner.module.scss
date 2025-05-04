@@ -22,8 +22,8 @@
   }
 
   .quizBox {
-    background-color: #333333;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #fff9db;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     width: 100%;
     height: fit-content;
     border-radius: 20px;
@@ -42,7 +42,6 @@
       justify-content: center;
 
       p {
-        color: #ffffff;
         font-size: 25px;
         font-weight: 700;
       }
@@ -64,7 +63,7 @@
       }
 
       .progresLine {
-        background-color: #4a4a4a;
+        background-color: #feeea0;
         width: 100%;
         height: fit-content;
         padding: 5px 5px;
@@ -110,7 +109,6 @@
         padding: 10px 0px 20px 0px;
 
         p {
-          color: #ffffff;
           font-size: 22px;
           font-weight: 600;
         }
@@ -125,29 +123,26 @@
         gap: 15px;
 
         .answer {
-          background-color: #333333;
+          background-color: white;
           width: 100%;
           height: fit-content;
           padding: 10px 15px;
           border-radius: 16px;
-          border: 2px solid #4a4a4a;
+          border: 2px solid #feeea0;
           cursor: pointer;
           transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 
           &:hover {
-            background-color: #555555;
             transform: scale(1.03);
           }
 
           &.selected {
-            background-color: #444444;
             border-color: #ffa500;
             box-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
             transform: scale(1.03);
           }
 
           p {
-            color: #ffffff;
             font-size: 22px;
             font-weight: 600;
           }
@@ -164,16 +159,15 @@
           width: 100%;
           padding: 10px 15px;
           border-radius: 16px;
-          border: 2px solid #4a4a4a;
-          background-color: #333333;
-          color: #ffffff;
+          border: 2px solid #feeea0;
+          background-color: white;
+
           font-size: 18px;
           font-weight: 500;
           outline: none;
           transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 
           &::placeholder {
-            color: #aaaaaa;
             font-weight: 400;
           }
 
@@ -182,9 +176,6 @@
             box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
           }
 
-          &:hover {
-            background-color: #444444;
-          }
         }
       }
     }
@@ -220,7 +211,6 @@
   }
 }
 
-/* Stiluri responsiv pentru dimensiuni mobile și tabletă */
 @media (max-width: 767px) {
   .QuizMani {
     width: 100%;
@@ -286,8 +276,6 @@
 
   }
 }
-
-/* Stiluri responsiv pentru telefoane mici (sub 575px) */
 @media (max-width: 575px) {
   .QuizMani {
     .quizBox {
@@ -329,6 +317,33 @@
       .customAnswer input {
         font-size: 16px !important;
       }
+    }
+  }
+}
+
+.loadingWrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .spinner {
+    width: 120px;
+    height: 120px;
+    border: 10px solid #ffe0b2;
+    border-top: 10px solid #fb8c00;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(360deg);
     }
   }
 }

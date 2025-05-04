@@ -3,14 +3,14 @@ import styles from "./QuizRunner.module.scss"
 import { addFinalAnswersToStudent } from '../../../../api/studentService';
 
 const QuizRunner = (props) => {
-  const { quizData, student, assignedQuizId } = props;
+  const { quizData, student, assignedQuizId, setScore } = props;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(parseInt(sessionStorage.getItem('currentQuestionIndex'), 10) || 0);
   const [selectedAnswerIndex, setSelectedAnswerIndex] = useState(null);
   const [customAnswer, setCustomAnswer] = useState('');
   const [userAnswers, setUserAnswers] = useState(JSON.parse(sessionStorage.getItem('userAnswers')) || []);
   const [transitioning, setTransitioning] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleAnswerSelect = (index) => {
     setSelectedAnswerIndex(index);
@@ -77,7 +77,7 @@ const QuizRunner = (props) => {
 
   const handleFinishQuiz = async () => {
     if (isButtonDisabled || (selectedAnswerIndex === null && customAnswer.trim() === '')) return;
-
+    setIsSubmitting(true);
     const updatedAnswers = [...userAnswers];
     updatedAnswers[currentQuestionIndex] = selectedAnswerIndex !== null
       ? quizData.questions[currentQuestionIndex].answers[selectedAnswerIndex]
@@ -87,9 +87,9 @@ const QuizRunner = (props) => {
     setIsButtonDisabled(true);
 
     const verificationData = verifyAnswers(updatedAnswers);
-
-
-
+    const totalQuestions = verificationData.length;
+    const correctAnswers = verificationData.filter(q => q.correct).length;
+    const scorePercentage = Math.round((correctAnswers / totalQuestions) * 100);
     const uniqueId = crypto.randomUUID();
 
     const finalAnswers = {
@@ -99,10 +99,25 @@ const QuizRunner = (props) => {
       assignedAt: quizData.assignedTimestamp,
       assignedBy: quizData.assignedBy,
       answersQuestion: verificationData,
+      scorePercentage
     };
 
-    await addFinalAnswersToStudent(student.id, finalAnswers, student.name, assignedQuizId);
+    try {
+      await addFinalAnswersToStudent(student.id, finalAnswers, student.name, assignedQuizId);
+      sessionStorage.setItem('quizScore', scorePercentage.toString());
+      setScore(scorePercentage);
+    } catch (error) {
+      alert("An error occurred while submitting the quiz.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (isSubmitting) return (
+    <div className={styles.loadingWrapper}>
+      <div className={styles.spinner}></div>
+    </div>
+  );
 
   const currentQuestion = quizData.questions[currentQuestionIndex];
 
