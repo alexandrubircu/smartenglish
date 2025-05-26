@@ -2,6 +2,141 @@
   width: 100%;
   height: 100vh;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
+  padding: 0px 130px;
+
+  .aboutHeder {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px;
+
+    p {
+      font-size: 30px;
+      color: black;
+      font-weight: 700;
+    }
+
+    .hederFunctionals {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+
+      .ConButton {
+        font-size: 25px;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+
+        &:hover {
+          color: gold;
+        }
+      }
+
+      .LogButton {
+        font-size: 18px;
+        background-color: transparent;
+        border-radius: 50px;
+        border: 2px solid black;
+        padding: 8px 24px;
+        cursor: pointer;
+        color: black;
+        font-weight: 500;
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: black;
+          border-color: gold;
+        }
+
+        &:active {
+          transform: scale(0.96);
+        }
+      }
+    }
+  }
+
+  .aboutContentWrapp {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    padding-top: 80px;
+
+    .infoBlock {
+      width: 65%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      h2 {
+        font-size: 102px;
+        font-weight: 700;
+        width: 100%;
+      }
+
+      p {
+        font-size: 30px;
+        font-weight: 500;
+        width: 100%;
+        max-width: 900px;
+      }
+
+      .plusList {
+        height: 100%;
+        width: 100%;
+        padding-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        p{
+          font-size: 27px;
+          font-weight: 700;
+        }
+        .plusItem {
+          font-size: 25px;
+          font-weight: 500;
+          color: gold;
+          width: fit-content;
+          padding: 20px 40px;
+          border-radius: 20px;
+          box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+          margin-bottom: 20px;
+        }
+      }
+    }
+
+    .imgBlock {
+      width: 35%;
+      gap: 20px;
+
+      .imgAbout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        border-radius: 30px;
+        padding: 70px 10px;
+
+        img {
+          width: 100%;
+          height: 650px;
+          border-radius: 30px;
+
+        }
+
+        p {
+          padding: 0px 20px;
+          font-size: 20px;
+          font-weight: 500;
+          color: gray;
+        }
+      }
+
+    }
+  }
 }

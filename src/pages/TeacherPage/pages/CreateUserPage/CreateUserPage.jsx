@@ -48,75 +48,145 @@ const CreateUserPage = () => {
   return (
     <>
       <div className={styles.wrapper}>
-        <h3 className={styles.title}>Create new user</h3>
+        <div className={styles.formWrapp}>
+          <h3 className={styles.title}>Create new student</h3>
 
-        <Box className={styles.form}>
-          <TextField
-            label="Full name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            fullWidth
-            className={styles.input}
-            sx={{
-              '& label': { color: '#ffcc80' },
-              '& label.Mui-focused': { color: '#fb8c00' },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderRadius: '12px', borderColor: '#ffcc80' },
-                '&:hover fieldset': { borderColor: '#ffa726' },
-                '&.Mui-focused fieldset': { borderColor: '#fb8c00' },
-              },
-            }}
-          />
+          <Box className={styles.form}>
+            <TextField
+              placeholder="Full name"
+              size="small"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              fullWidth
+              className={styles.input}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderRadius: '12px',
+                  },
+                  '&:hover fieldset': {
+                    borderRadius: '12px',
+                    borderColor: '#ffa726',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderRadius: '12px',
+                    borderColor: '#fb8c00',
+                  },
+                  '& .MuiInputBase-input': {
+                    fontSize: '20px',
+                  },
+                },
+              }}
+            />
 
-          <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            fullWidth
-            className={styles.input}
-            sx={{
-              '& label': { color: '#ffcc80' },
-              '& label.Mui-focused': { color: '#fb8c00' },
-              '& .MuiOutlinedInput-root': {
-                '& fieldset': { borderRadius: '12px', borderColor: '#ffcc80' },
-                '&:hover fieldset': { borderColor: '#ffa726' },
-                '&.Mui-focused fieldset': { borderColor: '#fb8c00' },
-              },
-            }}
-          />
+            <TextField
+              placeholder="Email"
+              size="small"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              fullWidth
+              className={styles.input}
+              sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderRadius: '12px',
+                  },
+                  '&:hover fieldset': {
+                    borderRadius: '12px',
+                    borderColor: '#ffa726',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderRadius: '12px',
+                    borderColor: '#fb8c00',
+                  },
+                  '& .MuiInputBase-input': {
+                    fontSize: '20px',
+                  },
+                },
+              }}
+            />
 
-          <Select
-            value={selectedQuizId}
-            onChange={(e) => setSelectedQuizId(e.target.value)}
-            displayEmpty
-            fullWidth
-            className={styles.select}
-            sx={{
-              '& .MuiOutlinedInput-notchedOutline': { borderColor: '#ffcc80' },
-              '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: '#ffa726' },
-              '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: '#fb8c00' },
-              '& .MuiSelect-outlined': { padding: '10.5px 14px' },
-            }}
-          >
-            <MenuItem value="">No test assigned</MenuItem>
-            {quizzes.map((quiz) => (
-              <MenuItem key={quiz.id} value={quiz.id}>
-                {quiz.title}
-              </MenuItem>
-            ))}
-          </Select>
+            <Select
+              value={selectedQuizId}
+              onChange={(e) => setSelectedQuizId(e.target.value)}
+              displayEmpty
+              fullWidth
+              className={styles.select}
+              sx={{
+                '&:hover .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#ffa726'
+                },
+                '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                  borderColor: '#fb8c00'
+                },
+                '& .MuiSelect-outlined': {
+                  padding: '10.5px 14px'
+                },
+              }}
+            >
+              <MenuItem value="">No test assigned</MenuItem>
+              {quizzes.map((quiz) => (
+                <MenuItem key={quiz.id} value={quiz.id}>
+                  {quiz.title}
+                </MenuItem>
+              ))}
+            </Select>
 
-          <Button
-            variant="outlined"
-            onClick={handleCreate}
-            disabled={showModal}
-            className={styles.createBtn}
-          >
-            Create user
-          </Button>
-        </Box>
-
+            <Button
+              variant="outlined"
+              onClick={handleCreate}
+              disabled={showModal}
+              className={styles.createBtn}
+            >
+              Create user
+            </Button>
+          </Box>
+        </div>
+        {generatedLink && (
+          <Box className={styles.linkBox}>
+            <Typography variant="body1" className={styles.linkText}>
+              Generated test link:
+            </Typography>
+            <Box className={styles.linkContent}>
+              <TextField
+                value={generatedLink}
+                InputProps={{ readOnly: true }}
+                fullWidth
+                size="small"
+                className={styles.generatedLink}
+                 sx={{
+                '& .MuiOutlinedInput-root': {
+                  '& fieldset': {
+                    borderRadius: '12px',
+                  },
+                  '&:hover fieldset': {
+                    borderRadius: '12px',
+                    borderColor: '#ffa726',
+                  },
+                  '&.Mui-focused fieldset': {
+                    borderRadius: '12px',
+                    borderColor: '#fb8c00',
+                  },
+                  '& .MuiInputBase-input': {
+                    fontSize: '20px',
+                  },
+                },
+              }}
+              />
+              <Button
+                onClick={() => {
+                  navigator.clipboard.writeText(generatedLink);
+                  enqueueSnackbar("Link copied to clipboard!", { variant: "info" });
+                }}
+                className={styles.copyBtn}
+                variant="contained"
+              >
+                Copy
+              </Button>
+            </Box>
+          </Box>
+        )}
         <Modal open={showModal}>
           <Box className={styles.modal}>
             <div className={styles.loadingWrapper}>
@@ -127,33 +197,6 @@ const CreateUserPage = () => {
         </Modal>
 
       </div>
-
-      {generatedLink && (
-        <Box className={styles.linkBox}>
-          <Typography variant="body1" className={styles.linkText}>
-            Generated test link:
-          </Typography>
-          <Box className={styles.linkContent}>
-            <TextField
-              value={generatedLink}
-              InputProps={{ readOnly: true }}
-              fullWidth
-              size="small"
-              className={styles.generatedLink}
-            />
-            <Button
-              onClick={() => {
-                navigator.clipboard.writeText(generatedLink);
-                enqueueSnackbar("Link copied to clipboard!", { variant: "info" });
-              }}
-              className={styles.copyBtn}
-              variant="contained"
-            >
-              Copy
-            </Button>
-          </Box>
-        </Box>
-      )}
     </>
   );
 };

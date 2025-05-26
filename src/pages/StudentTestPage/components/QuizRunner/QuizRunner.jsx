@@ -51,18 +51,31 @@ const QuizRunner = (props) => {
     }
   };
 
+  // strategie 
+
   const normalizeAnswer = (answer) => answer?.toLowerCase().replace(/\s/g, "");
+
+  const chooseStrategy = (question, userAnswer) => {
+    const correct = question.answers?.[question.correctAnswer];
+    return normalizeAnswer(userAnswer) === normalizeAnswer(correct);
+  };
+
+  
+  const writeStrategy = (question, userAnswer) => {
+    const correctAnswers = question.correctTextAnswers?.map(normalizeAnswer) || [];
+    return correctAnswers.includes(normalizeAnswer(userAnswer));
+  };
+
+  const verificationStrategies = {
+    choose: chooseStrategy,
+    write: writeStrategy,
+  };
 
   const verifyAnswers = (answers) => {
     return quizData.questions.map((question, i) => {
-      const userAnswer = normalizeAnswer(answers[i]);
-      const correctAnswer = question.type === 'write'
-        ? question.correctTextAnswers?.map(normalizeAnswer) || []
-        : normalizeAnswer(question.answers?.[question.correctAnswer]);
-
-      const correct = question.type === 'write'
-        ? correctAnswer.includes(userAnswer)
-        : userAnswer === correctAnswer;
+      const userAnswer = answers[i];
+      const strategy = verificationStrategies[question.type];
+      const isCorrect = strategy ? strategy(question, userAnswer) : false;
 
       return {
         type: question.type || "",
@@ -70,7 +83,7 @@ const QuizRunner = (props) => {
         answers: question.answers || [],
         userAnswer: answers[i] || "",
         question: question.questionText || "Unknown question",
-        correct,
+        correct: isCorrect,
       };
     });
   };

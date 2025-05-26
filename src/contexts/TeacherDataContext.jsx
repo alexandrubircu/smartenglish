@@ -28,8 +28,8 @@ export const TeacherDataProvider = ({ children }) => {
       ]);
       setStudents(studentsData);
       setQuizzes(quizzesData);
-    } catch (err) {
-      console.error('❌ Eroare la încărcarea datelor:', err);
+    } catch (error) {
+      throw error;
     } finally {
     }
   };
@@ -60,8 +60,8 @@ export const TeacherDataProvider = ({ children }) => {
       try {
         setLoading(true);
         await refresh();
-      } catch (err) {
-        console.error("Error loading data:", err);
+      } catch (error) {
+        throw error;
       } finally {
         setLoading(false);
       }

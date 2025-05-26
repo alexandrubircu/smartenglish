@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
-      console.error("Eroare logare:", error.message);
+      throw error;
     }
   };
 
@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await signOut(auth);
     } catch (error) {
-      console.error("Eroare deconectare:", error.message);
+      throw error;
     }
   };
 

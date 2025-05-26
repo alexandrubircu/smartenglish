@@ -1,43 +1,91 @@
-.Login {
+.LoginWrapp {
+    position: relative;
     width: 100%;
     height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    z-index: 1;
 
-    .inputContainer {
+    &::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('../../assets/images/aboutImg.jpeg');
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.05;
+        z-index: -1;
+    }
+
+    .login {
+        background-color: rgba(255, 255, 255, 0.599);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        height: fit-content;
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
+        gap: 20px;
+        padding: 20px 40px;
+        border-radius: 20px;
 
-        input {
-            margin: var(--default-margin);
-            padding: var(--default-padding);
-            font-size: var(--font-size-large);
-            color: var(--primary-text-color);
+        h2 {
+            font-size: 30px;
+            font-weight: 700;
         }
 
-        button {
-            padding: var(--default-padding);
-            border-radius: var(--border-radius);
-            font-size: var(--font-size-large);
-            border: none;
-            background-color: var(--button-bg-color);
-            color: var(--button-text-color);
-            cursor: pointer;
-            transition: background-color var(--transition-speed), transform var(--transition-speed);
+        .inputContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
 
-            &:hover {
-                background-color: var(--button-hover-bg-color);
-                transform: scale(1.05);
+            input {
+                width: 400px;
+                padding: 10px 15px;
+                border-radius: 16px;
+                border: 2px solid #feeea0;
+                background-color: white;
+
+                font-size: 18px;
+                font-weight: 500;
+                outline: none;
+                transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+
+                &::placeholder {
+                    font-weight: 400;
+                }
+
+                &:focus {
+                    border-color: #ffa500;
+                    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+                }
+
             }
 
-            &:active {
-                background-color: var(--button-bg-color);
-                transform: scale(0.95);
+            button {
+                font-size: 18px;
+                padding: 10px 24px;
+                background-color: #f6c90e;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                cursor: pointer;
+                font-weight: 500;
+                transition: background-color 0.3s ease, transform 0.2s ease;
+
+                &:hover {
+                    background-color: gold;
+                }
+
+                &:active {
+                    transform: scale(0.97);
+                }
             }
+
         }
     }
 }

@@ -7,6 +7,7 @@ import { Quiz, Question, Answer } from '../../../../composite/QuizComponent';
 import { createQuizInFirestore } from '../../../../api/teacherService';
 import './QuizComponent.scss'
 import { Button } from "@mui/material";
+import previewTestI from '../../../../assets/images/previewTest.png'
 
 const CreateTestPage = () => {
   const { enqueueSnackbar } = useSnackbar();
@@ -221,7 +222,6 @@ const CreateTestPage = () => {
             />
           </div>
         </div>
-
         <div className={styles.QuizList}>
           {questions.map((question, index) => (
             <div className={styles.questionSection} key={index}>
@@ -284,7 +284,7 @@ const CreateTestPage = () => {
         </div>
       ) : (
         <div className={styles.waitingPrevBlock}>
-          <div className={styles.emptyStateIcon} />
+          <img src={previewTestI} alt='img' />
           <h3 className={styles.waitingTitle}>
             Previzualizarea testului va apărea aici
           </h3>

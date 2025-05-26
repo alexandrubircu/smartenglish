@@ -9,7 +9,7 @@ const DesktopMenu = () => {
   return (
     <div className={styles.menuWrapper}>
       <div className={styles.content}>
-        <h3 className={styles.logo}>🎓 SmartEnglish</h3>
+        <h3 className={styles.logo}>SmartEnglish.</h3>
         <nav className={styles.nav}>
           <Link to="/dashboard" className={styles.link}>
             <DashboardIcon className={styles.icon} />

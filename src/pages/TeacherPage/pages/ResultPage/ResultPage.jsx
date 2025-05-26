@@ -86,20 +86,30 @@ const ResultPage = () => {
       </div>
     );
   }
-
+  console.log(testData);
   return (
     <div className={styles.resultPageWrapper}>
-      <Box className={styles.cardWrapper}>
-        <Avatar alt={testData.studentName} src="/avatar.png" className={styles.avatar} />
-        <Box className={styles.details}>
-          <Typography variant="h6" className={styles.name}>
-            {testData.studentName || "Unknown name"}
+      <div className={styles.fastData}>
+        <Box className={styles.cardWrapper}>
+          <Avatar alt={testData.studentName} src="/avatar.png" className={styles.avatar} />
+          <Box className={styles.details}>
+            <Typography variant="h6" className={styles.name}>
+              {testData.studentName || "Unknown name"}
+            </Typography>
+            <Typography className={styles.email}>
+              {testData.quizName || "Unknown quiz"}
+            </Typography>
+          </Box>
+        </Box>
+        <Box className={styles.summary}>
+          <Typography className={styles.score}>
+            Score: {testData.correctCount}/{testData.answersQuestion.length} correct
           </Typography>
-          <Typography className={styles.email}>
-            {testData.quizName || "Unknown quiz"}
+          <Typography className={styles.percentage}>
+            Accuracy: {Math.round((testData.correctCount / testData.answersQuestion.length) * 100)}%
           </Typography>
         </Box>
-      </Box>
+      </div>
       <Box className={styles.testListWrapper}>
         <IconButton onClick={handleMenuClick} className={styles.menuBtn}>
           <MoreVertIcon />

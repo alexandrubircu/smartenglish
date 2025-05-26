@@ -175,7 +175,6 @@ const DashboardPanel = () => {
                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
               >
                 <MenuList>
-                  <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </MenuList>
               </Popover>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Typography,
   TextField,
@@ -20,23 +20,16 @@ const StudentsSidebar = ({ students, selectedId, onSelectStudent }) => {
     <div className={styles.sidebar}>
       <Typography variant="h6" className={styles.title}>Students</Typography>
       <TextField
-        label="Caută"
+        placeholder="Search"
         size="small"
         fullWidth
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         className={styles.search}
         sx={{
-          '& label': {
-            color: '#ffcc80',
-          },
-          '& label.Mui-focused': {
-            color: '#fb8c00',
-          },
           '& .MuiOutlinedInput-root': {
             '& fieldset': {
               borderRadius: '12px',
-              borderColor: '#ffcc80',
             },
             '&:hover fieldset': {
               borderRadius: '12px',
@@ -45,6 +38,9 @@ const StudentsSidebar = ({ students, selectedId, onSelectStudent }) => {
             '&.Mui-focused fieldset': {
               borderRadius: '12px',
               borderColor: '#fb8c00',
+            },
+            '& .MuiInputBase-input': {
+              fontSize: '20px',
             },
           },
         }}

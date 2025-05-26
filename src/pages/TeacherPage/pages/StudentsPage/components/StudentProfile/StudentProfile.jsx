@@ -13,6 +13,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import noData from '../../../../../../assets/images/noData.png'
 import styles from "./StudentProfile.module.scss";
 
 import { deleteStudentById, deleteCompletedTest, deleteActiveTest, assignQuizToStudent } from "../../../../../../api/teacherService";
@@ -110,6 +111,18 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
 
   if (!student) return <div className={styles.empty}>Selectează un student</div>;
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = String(date.getFullYear()).slice(-2);
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minute = String(date.getMinutes()).padStart(2, '0');
+
+    return `${day}.${month}.${year}, ${hour}:${minute}`;
+  };
+
   const renderTestCard = (test, showCompleted = false) => (
     <div key={test.id} className={styles.testCard}>
       <div className={styles.testDates} onClick={() => {
@@ -121,8 +134,16 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
         }
       }}>
         <div className={styles.testCardTitle}>{test.title}</div>
-        <p>Assigned: {test.assignedAt}</p>
-        {showCompleted && <p>Completed: {test.completedAt}</p>}
+        <p style={{ fontWeight: 'bold' }}>
+          Assigned:
+          <span style={{ fontWeight: 'normal', color: '#888', marginLeft: '8px' }}>{formatDate(test.assignedAt)}</span>
+        </p>
+        {showCompleted &&
+          <p style={{ fontWeight: 'bold' }}>
+            Completed:
+            <span style={{ fontWeight: 'normal', color: '#888', marginLeft: '8px' }}>{formatDate(test.completedAt)}</span>
+          </p>
+        }
       </div>
       <div className={styles.testCardActions}>
         <IconButton
@@ -162,7 +183,7 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
       </div>
     </div>
   );
-
+  console.log(filteredTests);
   return (
     <div className={styles.profileCard}>
       <Box className={styles.cardWrapper}>
@@ -213,7 +234,10 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
             </div>
             <div className={styles.complitedContent}>
               {completedTests.length === 0 ? (
-                <p className={styles.emptyText}>No completed tests.</p>
+                <div className={styles.noDataWrapp}>
+                  <img src={noData} alt='img' />
+                  <p className={styles.emptyText}>No completed tests.</p>
+                </div>
               ) : (
                 <div className={styles.testGrid}>
                   {completedTests.map((test) => renderTestCard(test, true))}
@@ -230,7 +254,10 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
             </div>
             <div className={styles.activeContent}>
               {activeTests.length === 0 ? (
-                <p className={styles.emptyText}>No active tests.</p>
+                <div className={styles.noDataWrapp}>
+                  <img src={noData} alt='img' />
+                  <p className={styles.emptyText}>No active tests.</p>
+                </div>
               ) : (
                 <div className={styles.testGrid}>
                   {activeTests.map((test) => renderTestCard(test))}
@@ -247,25 +274,26 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
             </div>
             <div className={styles.assignSearch}>
               <TextField
-                label="Search test by title..."
+                placeholder="Search test by title"
                 size="small"
-                fullWidth
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className={styles.searchInput}
                 sx={{
-                  "& label": { color: "#ffcc80" },
-                  "& label.Mui-focused": { color: "#fb8c00" },
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderRadius: "12px",
-                      borderColor: "#ffcc80",
+                  '& .MuiOutlinedInput-root': {
+                    '& fieldset': {
+                      borderRadius: '12px',
                     },
-                    "&:hover fieldset": {
-                      borderColor: "#ffa726",
+                    '&:hover fieldset': {
+                      borderRadius: '12px',
+                      borderColor: '#ffa726',
                     },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#fb8c00",
+                    '&.Mui-focused fieldset': {
+                      borderRadius: '12px',
+                      borderColor: '#fb8c00',
+                    },
+                    '& .MuiInputBase-input': {
+                      fontSize: '20px',
                     },
                   },
                 }}
@@ -273,24 +301,46 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
             </div>
             <div className={styles.testList}>
               {filteredTests.length === 0 ? (
-                <p className={styles.emptyText}>No tests found.</p>
+                <div className={styles.noDataWrapp}>
+                  <img src={noData} alt='img' />
+                  <p className={styles.emptyText}>No tests found.</p>
+                </div>
               ) : (
                 filteredTests.map((test) => (
-                  <div key={test.id} className={styles.testItem} onClick={() => {
-                    navigate(`/dashboard/quizprev/${test.id}`);
-                  }}>
-                    <span className={styles.testTitle}>{test.title}</span>
-                    <Button
-                      variant="outlined"
-                      size="small"
-                      className={styles.assignBtn}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleAssign(test);
-                      }}
-                    >
-                      Assign Test
-                    </Button>
+                  <div key={test.id} className={styles.testItem}>
+                    <div className={styles.testInfoWrapp}>
+                      <p style={{ fontWeight: 'bold' }}>
+                        Test title:
+                        <span style={{ marginLeft: '8px' }}>{test.title}</span>
+                      </p>
+                      <p style={{ fontWeight: 'bold' }}>
+                        Assigned:
+                        <span style={{ fontWeight: 'normal', color: '#888', marginLeft: '8px' }}>{formatDate(test.createdAt)}</span>
+                      </p>
+                    </div>
+                    <div className={styles.actionasignTest}>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        className={styles.previewBtn}
+                        onClick={() => {
+                          navigate(`/dashboard/quizprev/${test.id}`);
+                        }}
+                      >
+                        Preview Test
+                      </Button>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        className={styles.assignBtn}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAssign(test);
+                        }}
+                      >
+                        Assign Test
+                      </Button>
+                    </div>
                   </div>
                 ))
               )}

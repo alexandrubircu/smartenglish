@@ -1,15 +1,16 @@
 .sidebar {
-  width: 300px;
+  width: 380px;
+  height: fit-content;
   display: flex;
   flex-direction: column;
-  background-color: #fff9db;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
   border-radius: 12px;
   padding: 10px 12px;
 
   .title {
     color: #222;
     font-weight: 600;
+    font-size: 22px;
     margin-bottom: 16px;
   }
 
@@ -18,6 +19,7 @@
     background-color: white;
     border-radius: 12px;
   }
+
 
   .filter {
     margin-bottom: 16px;
@@ -44,11 +46,11 @@
 
   .list {
     width: 100%;
-    height: calc(100vh - 235px);
+    height: calc(100vh - 300px);
     overflow-y: scroll;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 
     .listItem {
       background-color: white;

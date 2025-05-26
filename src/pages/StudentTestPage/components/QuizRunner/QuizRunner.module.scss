@@ -11,19 +11,9 @@
     user-select: none;
   }
 
-  .logo {
-    height: 50vw;
-    max-height: 280px;
-    width: auto;
-    transition: filter 0.5s ease, opacity 0.5s ease;
-    opacity: 0;
-    display: flex;
-    justify-content: end;
-  }
-
   .quizBox {
-    background-color: #fff9db;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     width: 100%;
     height: fit-content;
     border-radius: 20px;
@@ -276,6 +266,7 @@
 
   }
 }
+
 @media (max-width: 575px) {
   .QuizMani {
     .quizBox {

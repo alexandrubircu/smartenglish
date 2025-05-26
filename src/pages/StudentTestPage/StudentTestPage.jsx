@@ -1,8 +1,7 @@
-import React from 'react';
 import { useStudentData } from '../../contexts/StudentDataContext';
 import styles from './StudentTestPage.module.scss';
 import QuizRunner from './components/QuizRunner/QuizRunner';
-import QuizResult from './components/QuizResult/QuizResult';
+import QuizResult from './components/QuizResult/QuizResultDecorated';
 import ErrorOutlineOutlinedIcon from '@mui/icons-material/ErrorOutlineOutlined';
 
 const StudentTestPage = () => {

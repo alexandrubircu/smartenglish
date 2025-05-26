@@ -8,7 +8,6 @@ class QuizComponent {
   }
 }
 
-// Ответ
 export class Answer extends QuizComponent {
   constructor(text = '', isCorrect = false) {
     super();
@@ -25,15 +24,15 @@ export class Answer extends QuizComponent {
   }
 }
 
-// Вопрос
+
 export class Question extends QuizComponent {
   constructor(questionText = '', type = 'choose', answers = [], correctTextAnswers = []) {
     super();
     this.questionText = questionText;
     this.type = type;
-    this.answers = answers; // массив объектов Answer
-    this.correctTextAnswers = correctTextAnswers; // массив строк
-    this.correctAnswer = 0; // индекс правильного ответа для choose
+    this.answers = answers; 
+    this.correctTextAnswers = correctTextAnswers; 
+    this.correctAnswer = 0; 
   }
 
   toJSON() {
@@ -82,7 +81,6 @@ export class Question extends QuizComponent {
   }
 }
 
-// Тест
 export class Quiz extends QuizComponent {
   constructor(name = '', questions = []) {
     super();
