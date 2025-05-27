@@ -24,6 +24,17 @@ export const fetchAllQuizzes = async () => {
   return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 };
 
+export const getQuizById = async (quizId) => {
+  const quizRef = doc(db, "quizzes", quizId);
+  const quizSnap = await getDoc(quizRef);
+
+  if (!quizSnap.exists()) {
+    throw new Error("Testul nu există.");
+  }
+
+  return { id: quizSnap.id, ...quizSnap.data() };
+};
+
 export const createStudentInFirestore = async (professorId, name, email, quizId = null, quizName = null) => {
   const type = quizId ? "with-test" : "basic";
 

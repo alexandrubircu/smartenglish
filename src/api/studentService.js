@@ -52,9 +52,7 @@ export const addFinalAnswersToStudent = async (studentId, finalAnswers, studentN
     await updateDoc(studentRef, {
       [`quizzes.${assignedQuizId}`]: deleteField()
     });
-
-    console.log("✅ Notificare adăugată în colecția globală notifications.");
   } catch (error) {
-    console.error("❌ Eroare la salvarea testului sau notificării:", error);
+    console.error("error", error);
   }
 };

@@ -8,7 +8,7 @@ const StudentTestPage = () => {
   const { student, quizData, assignedQuizId, loading, error, score, setScore, quizName } = useStudentData();
 
   const hasFinished = score !== null;
-
+  
   if (loading) {
     return (
       <div className={styles.loadingWrapper}>

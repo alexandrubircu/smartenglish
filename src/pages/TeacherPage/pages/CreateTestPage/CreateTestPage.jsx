@@ -20,7 +20,7 @@ const CreateTestPage = () => {
   ]);
   const [quizPreview, setQuizPreview] = useState(null);
   const maxQuestions = 60;
-
+  // console.log(quizPreview);
   const handleQuizNameChange = (e) => setQuizName(e.target.value);
 
   const handleQuestionTypeChange = (index, value) => {

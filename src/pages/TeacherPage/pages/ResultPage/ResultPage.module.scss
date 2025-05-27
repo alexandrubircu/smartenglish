@@ -2,121 +2,181 @@
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 16px;
 
   .fastData {
     width: 100%;
+    height: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 15px;
 
     .cardWrapper {
+      width: 100%;
+      height: fit-content;
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
       align-items: center;
-      width: fit-content;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      border-radius: 12px;
-      padding: 10px 35px 10px 12px;
-      gap: 12px;
-      position: relative;
+      justify-content: space-around;
 
-      .avatar {
-        width: 64px;
-        height: 64px;
-      }
-
-      .details {
+      .studentData {
+        background-color: white;
+        width: fit-content;
+        height: 100%;
+        box-shadow: 5px 5px 20px 6px rgba(0, 0, 0, 0.15);
+        padding: 0px 20px;
+        border-radius: 12px;
         display: flex;
         flex-direction: column;
-        align-items: start;
+        align-items: center;
+        justify-content: center;
+
+        .avatar {
+          width: 64px;
+          height: 64px;
+        }
 
         .name {
           font-weight: 600;
           color: #333;
         }
       }
-    }
 
-    .summary {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-around;
-      align-items: center;
-      width: fit-content;
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
-      border-radius: 12px;
-      padding: 10px 35px 10px 12px;
-      gap: 12px;
-      position: relative;
-
-      .score {
-        font-size: 18px;
+      .testData {
+        background-color: white;
+        width: fit-content;
+        height: 100%;
+        box-shadow: 5px 5px 20px 6px rgba(0, 0, 0, 0.15);
+        padding: 10px 40px;
+        border-radius: 12px;
       }
 
-      .percentage {
-        font-size: 16px;
-        color: #888;
+      .studentScore {
+        position: relative;
+        width: 80px;
+        height: 100%;
+        border-radius: 12px;
+        background: #fff;
+        overflow: hidden;
+        box-shadow: 5px 5px 20px 6px rgba(0, 0, 0, 0.15);
+
+        .wave {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          background: #fb8c00;
+          z-index: 1;
+          transition: height 1s ease-out;
+        }
+
+        .scoreNumber {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          font-weight: bold;
+          font-size: 32px;
+          color: #333;
+          z-index: 2;
+        }
+      }
+
+    }
+
+    .testListWrapper {
+      background-color: white;
+      width: 100%;
+      height: 100%;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      border-radius: 12px;
+      padding: 20px 15px;
+      position: relative;
+
+      .menuBtn {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+      }
+
+      .resultTestTitle {
+        font-size: 20px;
+        font-weight: 600;
+        padding-bottom: 10px;
+        border-bottom: 1.5px solid orange;
+        margin-bottom: 10px;
+      }
+
+      .resultList {
+        width: 100%;
+        height: 100%;
+        padding: 10px 12px;
+        max-height: calc(100vh - 380px);
+        overflow-y: scroll;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+
+        .resultItem {
+          background-color: #fff;
+          border-radius: 10px;
+          padding: 12px;
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .correct {
+          border-left: 5px solid #4caf50;
+        }
+
+        .wrong {
+          border-left: 5px solid #f44336;
+        }
+
+        .question {
+          font-weight: 600;
+          margin-bottom: 6px;
+          color: #333;
+        }
+
+        .answer,
+        .status,
+        .correctAnswers {
+          margin: 2px 0;
+          color: #555;
+        }
+
       }
     }
   }
 
-  .testListWrapper {
+  .prevWrapp {
     width: 100%;
     height: 100%;
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
     border-radius: 12px;
     padding: 20px 15px;
-    position: relative;
 
-    .menuBtn {
-      position: absolute;
-      right: 0;
-      top: 0;
+    .noDataWrapp {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      img {
+        width: 100%;
+        max-width: 400px;
+        height: 100%;
+        max-height: 400px;
+      }
+
+      .emptyText {
+        width: 100%;
+        max-width: 400px;
+      }
     }
   }
 
-  .resultList {
-    width: 100%;
-    height: 100%;
-    padding: 10px 12px;
-    max-height: calc(100vh - 100px);
-    overflow-y: scroll;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-
-    .resultItem {
-      background-color: #fff;
-      border-radius: 10px;
-      padding: 12px;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .correct {
-      border-left: 5px solid #4caf50;
-    }
-
-    .wrong {
-      border-left: 5px solid #f44336;
-    }
-
-    .question {
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #333;
-    }
-
-    .answer,
-    .status,
-    .correctAnswers {
-      margin: 2px 0;
-      color: #555;
-    }
-
-  }
 }
 
 .customDialog {
@@ -205,17 +265,24 @@
   }
 }
 
-.notFoundWrapper {
+.noDataWrapp {
+  width: 100%;
+  height: 100%;
+  max-height: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 200px;
-  text-align: center;
 
-  .notFoundText {
-    font-size: 18px;
-    color: #fb8c00;
-    font-weight: 500;
+  img {
+    width: 100%;
+    height: 100%;
+    max-width: 350px;
+    max-height: 350px;
+  }
+
+  .emptyText {
+    font-size: 22px;
+    color: orange;
+    font-style: italic;
   }
 }

@@ -183,7 +183,7 @@ const StudentProfile = ({ professorId, student, quizzes, onDeleteStudent }) => {
       </div>
     </div>
   );
-  console.log(filteredTests);
+
   return (
     <div className={styles.profileCard}>
       <Box className={styles.cardWrapper}>

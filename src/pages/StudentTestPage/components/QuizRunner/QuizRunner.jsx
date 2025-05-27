@@ -108,6 +108,7 @@ const QuizRunner = (props) => {
     const finalAnswers = {
       id: uniqueId,
       quizName: quizData.title,
+      quizId: quizData.id,
       completedAt: new Date().toISOString(),
       assignedAt: quizData.assignedTimestamp,
       assignedBy: quizData.assignedBy,

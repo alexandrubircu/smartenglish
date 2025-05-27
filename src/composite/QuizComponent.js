@@ -30,9 +30,9 @@ export class Question extends QuizComponent {
     super();
     this.questionText = questionText;
     this.type = type;
-    this.answers = answers; 
-    this.correctTextAnswers = correctTextAnswers; 
-    this.correctAnswer = 0; 
+    this.answers = answers;
+    this.correctTextAnswers = correctTextAnswers;
+    this.correctAnswer = 0;
   }
 
   toJSON() {
@@ -94,7 +94,19 @@ export class Quiz extends QuizComponent {
       questions: this.questions.map(q => q.toJSON())
     };
   }
+  static fromJSON(data) {
+    const questions = data.questions.map(q => {
+      const answers = (q.answers || []).map(a =>
+        typeof a === 'string' ? new Answer(a) : new Answer(a.text, a.isCorrect)
+      );
+      const correctTextAnswers = q.correctTextAnswers || [];
+      const question = new Question(q.questionText, q.type, answers, correctTextAnswers);
+      question.correctAnswer = q.correctAnswer ?? 0;
+      return question;
+    });
 
+    return new Quiz(data.title || data.quizName, questions);
+  }
   renderPreview() {
     return `
       <div class="quizPreview">
